@@ -73,7 +73,7 @@ namespace HexaCraft
             DrawGridGeneratingUI(_SubHeaderSpace, "HexaGrid Generation", _subHeaderStyle);
             DrawMaterialEditingUI(_SubHeaderSpace, "Material Changer", _subHeaderStyle);
             DrawObjectSelector(_SubHeaderSpace, "Object Selector", _subHeaderStyle);
-            DrawPathEditingUI(_SubHeaderSpace, "Path Editing", _subHeaderStyle);
+            // DrawPathEditingUI(_SubHeaderSpace, "Path Editing", _subHeaderStyle);
         }
 
         private void DrawCustomEditorHeader(float spaceSize, string label, GUIStyle style)
@@ -112,7 +112,7 @@ namespace HexaCraft
 
             _material = (Material)EditorGUILayout.ObjectField("Select Material", _presenter.GetSelectionMaterial(), typeof(Material), false);
             _presenter.SetSelctionMaterial(_material);
-            
+
             if (GUILayout.Button(GetToggleButtonText("Finish Change Material", "Change Material", ToggleMode.MaterialEditing)))
             {
                 _presenter.OnToggle(ToggleMode.MaterialEditing);
@@ -123,31 +123,27 @@ namespace HexaCraft
         {
             DrawCustomEditorHeader(spaceSize, label, style);
 
-            float totalWidth = EditorGUIUtility.currentViewWidth;
+            // 표준 컨트롤 영역 얻기
+            Rect availableRect = EditorGUILayout.GetControlRect(false, _HorizonButtonHegiht);
+            float totalWidth = availableRect.width;
             float firstButtonWidth = totalWidth * 0.3f;
             float secondButtonWidth = totalWidth * 0.7f;
 
             GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
             buttonStyle.alignment = TextAnchor.MiddleCenter;
 
-            GUILayout.BeginHorizontal();
-
-            if (GUILayout.Button(
-                GetToggleButtonText("Lock Inspector", "Unlock Inspector", ToggleMode.InspectorLocking),
-                buttonStyle, GUILayout.Width(firstButtonWidth), GUILayout.Height(_HorizonButtonHegiht)))
+            // 얻은 Rect의 위치를 기준으로 버튼 배치
+            if (GUI.Button(new Rect(availableRect.x, availableRect.y, firstButtonWidth, _HorizonButtonHegiht),
+                GetToggleButtonText("Lock Inspector", "Unlock Inspector", ToggleMode.InspectorLocking), buttonStyle))
             {
                 _presenter.OnToggle(ToggleMode.InspectorLocking);
             }
-                        
-            if (GUILayout.Button(
-                GetToggleButtonText("Finish Object Selector", "Select Object", ToggleMode.ObjectSelecting),
-                buttonStyle, GUILayout.Width(secondButtonWidth), GUILayout.Height(_HorizonButtonHegiht))
-                )
+
+            if (GUI.Button(new Rect(availableRect.x + firstButtonWidth, availableRect.y, secondButtonWidth, _HorizonButtonHegiht),
+                GetToggleButtonText("Finish Object Selector", "Select Object", ToggleMode.ObjectSelecting), buttonStyle))
             {
                 _presenter.OnToggle(ToggleMode.ObjectSelecting);
             }
-
-            GUILayout.EndHorizontal();
         }
 
         private void DrawPathEditingUI(float spaceSize, string label, GUIStyle style)
