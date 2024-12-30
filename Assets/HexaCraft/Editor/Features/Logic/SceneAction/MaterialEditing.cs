@@ -36,7 +36,7 @@ namespace HexaCraft
                 ApplyMaterialChange(evt);
             }
         }
-
+                
         private void ApplyMaterialChange(Event evt)
         {
             _mousePosition = evt.mousePosition;
