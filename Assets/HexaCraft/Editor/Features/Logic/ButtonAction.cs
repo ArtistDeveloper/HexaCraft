@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEditor;
 
-public class ButtonAction
+namespace HexaCraft
 {
-    public void ToggleInspectorLock()
+    public class ButtonAction
     {
-        ActiveEditorTracker.sharedTracker.isLocked = !ActiveEditorTracker.sharedTracker.isLocked;
+        public void ToggleInspectorLock()
+        {
+            ActiveEditorTracker.sharedTracker.isLocked = !ActiveEditorTracker.sharedTracker.isLocked;
+        }
     }
 }

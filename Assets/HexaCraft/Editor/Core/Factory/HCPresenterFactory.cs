@@ -1,10 +1,12 @@
-using HexaCraft;
 using UnityEngine;
 
-public class HCPresenterFactory : IPresenterFactory
+namespace HexaCraft
 {
-    public IPresenter CreatePresenter(IView view)
+    public class HCPresenterFactory : IPresenterFactory
     {
-        return new HCPresenter(view);
+        public IPresenter CreatePresenter(IView view)
+        {
+            return new HCPresenter(view);
+        }
     }
 }

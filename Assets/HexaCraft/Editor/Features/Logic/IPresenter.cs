@@ -1,6 +1,10 @@
 using UnityEngine;
 
-public interface IPresenter
+namespace HexaCraft
 {
-    
+    public interface IPresenter
+    {
+
+    }
 }
+

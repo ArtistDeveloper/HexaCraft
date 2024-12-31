@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface IPresenterFactory
+namespace HexaCraft
 {
-    public IPresenter CreatePresenter(IView view);
+    public interface IPresenterFactory
+    {
+        public IPresenter CreatePresenter(IView view);
+    }
 }

@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface IView
+namespace HexaCraft
 {
-    
+    public interface IView
+    {
+
+    }
 }

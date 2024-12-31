@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public abstract class Command
+namespace HexaCraft
 {
-    public abstract void Execute();
+    public abstract class Command
+    {
+        public abstract void Execute();
+    }
 }
