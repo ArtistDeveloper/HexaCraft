@@ -19,6 +19,7 @@ namespace HexaCraft
         private IView _view;
         private HCModel _model;
         private SceneInteractor _sceneInteractor;
+        private ButtonAction _buttonAction;
 
         public HCPresenter(IView view)
         {
@@ -33,6 +34,7 @@ namespace HexaCraft
             _model.Init();
 
             _sceneInteractor = new SceneInteractor(this);
+            _buttonAction = new ButtonAction();
         }
 
         public void OnGenerateGridClicked(int n, GameObject hexPrefab, float hexSize)
@@ -50,6 +52,14 @@ namespace HexaCraft
             }
 
             _model.HexGenerator.GenerateGrid(n, hexPrefab, hexSize);
+        }
+
+        // TODO: 업데이트 시 해당 내용 리팩토링. 일반 버튼과 토글 버튼을 전체적으로 감싸는 커맨드 필요
+        // Toggle 버튼이라도 SceneAction 래핑이 필요하지 않은 경우가 존재한다.
+        public void OnToggleInspectorLock(ToggleMode type)
+        {
+            _buttonAction.ToggleInspectorLock();
+            SetModeActive(type, !CheckModeActive(type));
         }
 
         public void OnToggle(ToggleMode type)

@@ -29,7 +29,6 @@ namespace HexaCraft
 
             if (evt.type == EventType.MouseDown && !_isPressed)
             {
-                ActiveEditorTracker.sharedTracker.isLocked = true;
                 evt.Use();
                 ApplySelectGameObject(evt);
                 _isPressed = true;
@@ -42,7 +41,6 @@ namespace HexaCraft
             else if (evt.type == EventType.MouseUp)
             {
                 _isPressed = false;
-                ActiveEditorTracker.sharedTracker.isLocked = false;
             }
         }
 

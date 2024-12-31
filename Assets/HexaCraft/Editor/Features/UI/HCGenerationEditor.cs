@@ -134,9 +134,9 @@ namespace HexaCraft
 
             // 얻은 Rect의 위치를 기준으로 버튼 배치
             if (GUI.Button(new Rect(availableRect.x, availableRect.y, firstButtonWidth, _HorizonButtonHegiht),
-                GetToggleButtonText("Lock Inspector", "Unlock Inspector", ToggleMode.InspectorLocking), buttonStyle))
+                GetToggleButtonText("Locked Inspector", "Unlocked Inspector", ToggleMode.InspectorLocking), buttonStyle))
             {
-                _presenter.OnToggle(ToggleMode.InspectorLocking);
+                _presenter.OnToggleInspectorLock(ToggleMode.InspectorLocking);
             }
 
             if (GUI.Button(new Rect(availableRect.x + firstButtonWidth, availableRect.y, secondButtonWidth, _HorizonButtonHegiht),

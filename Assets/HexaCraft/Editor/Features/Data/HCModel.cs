@@ -13,8 +13,10 @@ namespace HexaCraft
 
         private Material _selectedMaterial = null;
 
+        private List<GameObject> _selectedObjects = new List<GameObject>();
 
-        public List<GameObject> SelectedObjects { get; }  = new List<GameObject>();
+
+        public List<GameObject> SelectedObjects { get => _selectedObjects; }
 
         public HexGridGenerator HexGenerator { get; } = new HexGridGenerator();
 
@@ -34,6 +36,7 @@ namespace HexaCraft
         public void ChangeToggleState(ToggleMode type, bool isModeActive)
         {
             _isToggleActives[type] = isModeActive;
+            _selectedObjects = new List<GameObject>(); // TODO: 추후 해당 부분도 커맨드 패턴 도입할 때 같이 리팩토링 필요
         }
 
         public bool CheckModeActive(ToggleMode type)
