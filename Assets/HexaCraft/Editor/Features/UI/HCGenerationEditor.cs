@@ -100,10 +100,10 @@ namespace HexaCraft
                 _presenter.OnGenerateGridClicked(_n, _hexPrefab, _hexSize);
             }
 
-            if (GUILayout.Button("Clear Grid"))
-            {
-                _presenter.OnClearGridClicked();
-            }
+            // if (GUILayout.Button("Clear Grid"))
+            // {
+            //     _presenter.OnClearGridClicked();
+            // }
         }
 
         private void DrawMaterialEditingUI(float spaceSize, string label, GUIStyle style)
