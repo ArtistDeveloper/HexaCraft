@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HexaCraft
 {
-    public class PathManipulation : ISceneAction
+    public class PathManipulation : ICommand
     {
         public Hex start;
         public Hex goal;

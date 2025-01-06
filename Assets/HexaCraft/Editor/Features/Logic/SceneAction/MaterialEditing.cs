@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HexaCraft
 {
-    public class MaterialEditing : ISceneAction
+    public class MaterialEditing : ICommand
     {
         private readonly HCPresenter _presenter;
 

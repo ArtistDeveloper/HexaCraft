@@ -31,7 +31,7 @@ namespace HexaCraft
             };
         }
 
-        private Action<SceneView> CreateSceneActionWrapper(ISceneAction action)
+        private Action<SceneView> CreateSceneActionWrapper(ICommand action)
         {
             return (SceneView sceneView) => OnSceneGUI(sceneView, action);
         }
@@ -63,7 +63,7 @@ namespace HexaCraft
             }
         }
 
-        private void OnSceneGUI(SceneView sceneView, ISceneAction action)
+        private void OnSceneGUI(SceneView sceneView, ICommand action)
         {
             Event evt = Event.current;
             action.Execute(sceneView, evt);

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HexaCraft
 {
-    public interface ISceneAction
+    public interface ICommand
     {
         void Execute(SceneView sceneView, Event evt);
     }
