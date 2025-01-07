@@ -10,6 +10,8 @@ namespace HexaCraft
     {
         private readonly HCPresenter _presenter;
 
+        public event Action<GameObject> OnObjectClicked;
+
         private readonly Dictionary<ToggleMode, Action<SceneView>> _sceneActionsWrapper;
 
         // TODO: Presenter와 결합 줄일 필요 존재
@@ -26,7 +28,7 @@ namespace HexaCraft
                 },
                 {
                     ToggleMode.ObjectSelecting,
-                    CreateSceneActionWrapper(new ObjectSelecting(_presenter))
+                    CreateSceneActionWrapper(new ObjectSelecting(this))
                 },
             };
         }
@@ -67,6 +69,11 @@ namespace HexaCraft
         {
             Event evt = Event.current;
             action.Execute(sceneView, evt);
+        }
+
+        public void NotifyObjectClicked(GameObject go)
+        {
+            OnObjectClicked?.Invoke(go);
         }
     }
 }

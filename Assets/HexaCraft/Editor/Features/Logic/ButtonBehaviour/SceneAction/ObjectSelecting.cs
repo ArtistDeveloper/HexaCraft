@@ -5,7 +5,7 @@ namespace HexaCraft
 {
     public class ObjectSelecting : ICommand
     {
-        private readonly HCPresenter _presenter;
+        private readonly SceneInteractor _interactor;
 
         private Vector2 _mousePosition;
 
@@ -17,9 +17,9 @@ namespace HexaCraft
 
         private bool _isPressed;
 
-        public ObjectSelecting(HCPresenter presenter)
+        public ObjectSelecting(SceneInteractor interactor)
         {
-            _presenter = presenter;
+            _interactor = interactor;
         }
 
         public void Execute(SceneView sceneView, Event evt)
@@ -53,14 +53,7 @@ namespace HexaCraft
             {
                 _point = _hit.point;
                 GameObject selectedObject = _hit.collider.gameObject;
-
-                if (!_presenter.GetSelectedObjects().Contains(selectedObject))
-                {
-                    _presenter.AddSelectedObject(selectedObject);
-                }
-
-                Selection.objects = _presenter.GetSelectedObjects().ToArray();
-                SceneView.RepaintAll();
+                _interactor.NotifyObjectClicked(selectedObject);
             }
         }
     }

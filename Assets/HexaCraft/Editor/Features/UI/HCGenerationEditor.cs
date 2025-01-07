@@ -8,7 +8,7 @@ using static UnityEngine.Rendering.DebugUI.MessageBox;
 namespace HexaCraft
 {
     [CustomEditor(typeof(HCGeneration))]
-    public class HCGenerationEditor : Editor, IView
+    public class HCGenerationEditor : Editor
     {
         private HCPresenter _presenter;
 
@@ -169,5 +169,12 @@ namespace HexaCraft
 
             GUILayout.EndHorizontal();
         }
+
+        public void UpdateSelectedObjects(List<GameObject> selectedObjects)
+        {
+            Selection.objects = selectedObjects.ToArray();
+            SceneView.RepaintAll();
+        }
     }
 }
+

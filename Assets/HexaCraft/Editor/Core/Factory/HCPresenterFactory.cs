@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace HexaCraft
 {
-    public class HCPresenterFactory : IPresenterFactory
+    public class HCPresenterFactory
     {
-        public IPresenter CreatePresenter(IView view)
+        public IPresenter CreatePresenter(HCGenerationEditor view)
         {
             return new HCPresenter(view);
         }
