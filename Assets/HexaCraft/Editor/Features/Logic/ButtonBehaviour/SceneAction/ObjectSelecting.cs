@@ -13,8 +13,6 @@ namespace HexaCraft
 
         private RaycastHit _hit;
 
-        private Vector3 _point;
-
         private bool _isPressed;
 
         public ObjectSelecting(SceneInteractor interactor)
@@ -51,7 +49,6 @@ namespace HexaCraft
 
             if (Physics.Raycast(_ray, out _hit))
             {
-                _point = _hit.point;
                 GameObject selectedObject = _hit.collider.gameObject;
                 _interactor.NotifyObjectClicked(selectedObject);
             }

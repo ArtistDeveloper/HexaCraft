@@ -35,6 +35,7 @@ namespace HexaCraft
 
             _sceneInteractor = new SceneInteractor(this);
             _sceneInteractor.OnObjectClicked += HandleObjectClicked;
+            _sceneInteractor.OnMaterialEditingRequested += HandleMaterialEditing;
 
             _buttonAction = new ButtonAction();
         }
@@ -66,6 +67,12 @@ namespace HexaCraft
             _view.UpdateSelectedObjects(_model.SelectedObjects);
         }
 
+        // MaterialEditing이 일으킨 이벤트 처리
+        private void HandleMaterialEditing(GameObject go)
+        {
+            _view.UpdateSelectedMaterial(go, _model.SelectedMaterial);
+        }
+
 
         // TODO: 업데이트 시 해당 내용 리팩토링. 일반 버튼과 토글 버튼을 전체적으로 감싸는 커맨드 필요
         // Toggle 버튼이라도 SceneAction 래핑이 필요하지 않은 경우가 존재한다.
@@ -94,16 +101,6 @@ namespace HexaCraft
         public List<GameObject> GetSelectedObjects()
         {
             return _model.SelectedObjects;
-        }
-
-        public void AddSelectedObject(GameObject go)
-        {
-            _model.AddSelectedObject(go);
-        }
-
-        public void RemoveSelectedObject(GameObject go)
-        {
-            _model.RemoveSelectedObject(go);
         }
 
         public void SetSelctionMaterial(Material material)

@@ -12,6 +12,8 @@ namespace HexaCraft
 
         public event Action<GameObject> OnObjectClicked;
 
+        public event Action<GameObject> OnMaterialEditingRequested;
+
         private readonly Dictionary<ToggleMode, Action<SceneView>> _sceneActionsWrapper;
 
         // TODO: Presenter와 결합 줄일 필요 존재
@@ -24,7 +26,7 @@ namespace HexaCraft
             {
                 {
                     ToggleMode.MaterialEditing,
-                    CreateSceneActionWrapper(new MaterialEditing(_presenter))
+                    CreateSceneActionWrapper(new MaterialEditing(this))
                 },
                 {
                     ToggleMode.ObjectSelecting,
@@ -74,6 +76,11 @@ namespace HexaCraft
         public void NotifyObjectClicked(GameObject go)
         {
             OnObjectClicked?.Invoke(go);
+        }
+
+        public void NotifyMaterialEditing(GameObject go)
+        {
+            OnMaterialEditingRequested?.Invoke(go);
         }
     }
 }

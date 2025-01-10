@@ -175,6 +175,22 @@ namespace HexaCraft
             Selection.objects = selectedObjects.ToArray();
             SceneView.RepaintAll();
         }
+        
+        public void UpdateSelectedMaterial(GameObject go, Material selectedMaterial)
+        {
+            var renderer = go.GetComponent<Renderer>();
+            if (renderer == null)
+                return;
+
+            var originalMaterials = renderer.sharedMaterials;
+            var newMaterials = new Material[originalMaterials.Length];
+            for (int i = 0; i < newMaterials.Length; i++)
+            {
+                newMaterials[i] = selectedMaterial;
+            }
+
+            renderer.sharedMaterials = newMaterials;      
+        }
     }
 }
 

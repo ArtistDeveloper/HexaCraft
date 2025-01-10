@@ -5,7 +5,7 @@ namespace HexaCraft
 {
     public class MaterialEditing : ICommand
     {
-        private readonly HCPresenter _presenter;
+        private readonly SceneInteractor _interactor;
 
         private Vector2 _mousePosition;
 
@@ -13,11 +13,9 @@ namespace HexaCraft
 
         private RaycastHit _hit;
 
-        private Vector3 _point;
-
-        public MaterialEditing(HCPresenter presenter)
+        public MaterialEditing(SceneInteractor interactor)
         {
-            _presenter = presenter;
+            _interactor = interactor;
         }
 
         public void Execute(SceneView sceneView, Event evt)
@@ -43,16 +41,9 @@ namespace HexaCraft
             _ray = HandleUtility.GUIPointToWorldRay(_mousePosition);
             if (Physics.Raycast(_ray, out _hit))
             {
-                _point = _hit.point;
+                // _point = _hit.point;
                 GameObject selectedObject = _hit.collider.gameObject;
-                Material[] materials = new Material[selectedObject.GetComponent<Renderer>().sharedMaterials.GetLength(0)];
-
-                for (int i = 0; i < materials.GetLength(0); i++)
-                {
-                    materials[i] = _presenter.GetSelectionMaterial();
-                }
-
-                selectedObject.GetComponent<Renderer>().sharedMaterials = materials;
+                _interactor.NotifyMaterialEditing(selectedObject);
             }
         }
     }
