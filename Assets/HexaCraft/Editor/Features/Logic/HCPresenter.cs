@@ -7,13 +7,6 @@ using static Codice.Client.BaseCommands.BranchExplorer.Layout.BrExLayout;
 
 namespace HexaCraft
 {
-    public enum ToggleMode
-    {
-        MaterialEditing,
-        ObjectSelecting,
-        InspectorLocking,
-    }
-
     public class HCPresenter : IPresenter
     {
         private HCGenerationEditor _view;
@@ -76,13 +69,13 @@ namespace HexaCraft
 
         // TODO: 업데이트 시 해당 내용 리팩토링. 일반 버튼과 토글 버튼을 전체적으로 감싸는 커맨드 필요
         // Toggle 버튼이라도 SceneAction 래핑이 필요하지 않은 경우가 존재한다.
-        public void OnToggleInspectorLock(ToggleMode type)
+        public void OnToggleInspectorLock(ToggleButton type)
         {
             _buttonAction.ToggleInspectorLock();
             SetModeActive(type, !CheckModeActive(type));
         }
 
-        public void OnToggle(ToggleMode type)
+        public void OnToggle(ToggleButton type)
         {
             _sceneInteractor.RegisterActionToSceneView(type);
             SetModeActive(type, !CheckModeActive(type));
@@ -108,12 +101,12 @@ namespace HexaCraft
             _model.SelectedMaterial = material;
         }
 
-        public bool CheckModeActive(ToggleMode type)
+        public bool CheckModeActive(ToggleButton type)
         {
             return _model.CheckModeActive(type);
         }
 
-        public void SetModeActive(ToggleMode type, bool isModeActive)
+        public void SetModeActive(ToggleButton type, bool isModeActive)
         {
             _model.ChangeToggleState(type, isModeActive);
         }

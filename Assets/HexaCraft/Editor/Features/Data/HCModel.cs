@@ -9,7 +9,7 @@ namespace HexaCraft
     // 각 상태를 따로 관리해도 된다면, Model에 무조건 위임시키지는 말자.
     public class HCModel
     {
-        private Dictionary<ToggleMode, bool> _isToggleActives;
+        private Dictionary<ToggleButton, bool> _isToggleActives;
 
         private Material _selectedMaterial = null;
 
@@ -25,21 +25,21 @@ namespace HexaCraft
 
         public void Init()
         {
-            _isToggleActives = new Dictionary<ToggleMode, bool>()
+            _isToggleActives = new Dictionary<ToggleButton, bool>()
             {
-                { ToggleMode.MaterialEditing, false },
-                { ToggleMode.ObjectSelecting, false },
-                { ToggleMode.InspectorLocking, false }
+                { ToggleButton.MaterialEditing, false },
+                { ToggleButton.ObjectSelecting, false },
+                { ToggleButton.InspectorLocking, false }
             };
         }
 
-        public void ChangeToggleState(ToggleMode type, bool isModeActive)
+        public void ChangeToggleState(ToggleButton type, bool isModeActive)
         {
             _isToggleActives[type] = isModeActive;
             _selectedObjects = new List<GameObject>(); // TODO: 추후 해당 부분도 커맨드 패턴 도입할 때 같이 리팩토링 필요
         }
 
-        public bool CheckModeActive(ToggleMode type)
+        public bool CheckModeActive(ToggleButton type)
         {
             if (_isToggleActives.TryGetValue(type, out bool isActive))
             {

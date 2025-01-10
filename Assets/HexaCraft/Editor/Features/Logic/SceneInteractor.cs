@@ -14,7 +14,7 @@ namespace HexaCraft
 
         public event Action<GameObject> OnMaterialEditingRequested;
 
-        private readonly Dictionary<ToggleMode, Action<SceneView>> _sceneActionsWrapper;
+        private readonly Dictionary<ToggleButton, Action<SceneView>> _sceneActionsWrapper;
 
         // TODO: Presenter와 결합 줄일 필요 존재
         // 이벤트 방식으로 결합도를 줄여보자. 그리고 겪는 문제점이 생기면 그 때 다시 수정하면 되지.
@@ -22,14 +22,14 @@ namespace HexaCraft
         {
             _presenter = presenter;
 
-            _sceneActionsWrapper = new Dictionary<ToggleMode, Action<SceneView>>()
+            _sceneActionsWrapper = new Dictionary<ToggleButton, Action<SceneView>>()
             {
                 {
-                    ToggleMode.MaterialEditing,
+                    ToggleButton.MaterialEditing,
                     CreateSceneActionWrapper(new MaterialEditing(this))
                 },
                 {
-                    ToggleMode.ObjectSelecting,
+                    ToggleButton.ObjectSelecting,
                     CreateSceneActionWrapper(new ObjectSelecting(this))
                 },
             };
@@ -40,7 +40,7 @@ namespace HexaCraft
             return (SceneView sceneView) => OnSceneGUI(sceneView, action);
         }
 
-        public void RegisterActionToSceneView(ToggleMode type)
+        public void RegisterActionToSceneView(ToggleButton type)
         {
             bool isModeActive = _presenter.CheckModeActive(type);
 

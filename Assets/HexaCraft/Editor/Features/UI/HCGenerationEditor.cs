@@ -36,6 +36,8 @@ namespace HexaCraft
         #endregion
 
         // 테스트
+        bool toggleTest = false;
+
         private void OnEnable()
         {
             _presenter = new HCPresenterFactory().CreatePresenter(this) as HCPresenter;
@@ -82,7 +84,7 @@ namespace HexaCraft
             GUILayout.Label(label, style);
         }
 
-        private string GetToggleButtonText(string original, string changed, ToggleMode type)
+        private string GetToggleButtonText(string original, string changed, ToggleButton type)
         {
             return _presenter.CheckModeActive(type) ? original : changed;
         }
@@ -113,9 +115,9 @@ namespace HexaCraft
             _material = (Material)EditorGUILayout.ObjectField("Select Material", _presenter.GetSelectionMaterial(), typeof(Material), false);
             _presenter.SetSelctionMaterial(_material);
 
-            if (GUILayout.Button(GetToggleButtonText("Finish Change Material", "Change Material", ToggleMode.MaterialEditing)))
+            if (GUILayout.Button(GetToggleButtonText("Finish Change Material", "Change Material", ToggleButton.MaterialEditing)))
             {
-                _presenter.OnToggle(ToggleMode.MaterialEditing);
+                _presenter.OnToggle(ToggleButton.MaterialEditing);
             }
         }
 
@@ -134,15 +136,15 @@ namespace HexaCraft
 
             // 얻은 Rect의 위치를 기준으로 버튼 배치
             if (GUI.Button(new Rect(availableRect.x, availableRect.y, firstButtonWidth, _HorizonButtonHegiht),
-                GetToggleButtonText("Locked Inspector", "Unlocked Inspector", ToggleMode.InspectorLocking), buttonStyle))
+                GetToggleButtonText("Locked Inspector", "Unlocked Inspector", ToggleButton.InspectorLocking), buttonStyle))
             {
-                _presenter.OnToggleInspectorLock(ToggleMode.InspectorLocking);
+                _presenter.OnToggleInspectorLock(ToggleButton.InspectorLocking);
             }
 
             if (GUI.Button(new Rect(availableRect.x + firstButtonWidth, availableRect.y, secondButtonWidth, _HorizonButtonHegiht),
-                GetToggleButtonText("Finish Object Selector", "Select Object", ToggleMode.ObjectSelecting), buttonStyle))
+                GetToggleButtonText("Finish Object Selector", "Select Object", ToggleButton.ObjectSelecting), buttonStyle))
             {
-                _presenter.OnToggle(ToggleMode.ObjectSelecting);
+                _presenter.OnToggle(ToggleButton.ObjectSelecting);
             }
         }
 
