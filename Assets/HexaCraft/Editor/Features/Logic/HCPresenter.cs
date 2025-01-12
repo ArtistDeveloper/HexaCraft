@@ -1,9 +1,6 @@
-using System;
+using System.Reflection;
 using System.Collections.Generic;
-using System.Diagnostics;
-using UnityEditor;
 using UnityEngine;
-using static Codice.Client.BaseCommands.BranchExplorer.Layout.BrExLayout;
 
 namespace HexaCraft
 {
@@ -115,15 +112,9 @@ namespace HexaCraft
 
         private bool IsSceneRegistrationRequire(ToggleButton type)
         {
-            switch (type)
-            {
-                case ToggleButton.MaterialEditing:
-                case ToggleButton.ObjectSelecting:
-                    return true;
-                case ToggleButton.InspectorLocking:
-                default:
-                    return false;
-            }
+            var memberInfo = type.GetType().GetMember(type.ToString())[0];
+            var attribute = memberInfo.GetCustomAttribute<SceneRegistrationAttribute>();
+            return attribute?.RequiresRegistration ?? false;
         }
     }
 }
