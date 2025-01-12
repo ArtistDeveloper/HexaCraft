@@ -1,14 +1,20 @@
 using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace HexaCraft
 {
     public class HCPresenter : IPresenter
     {
         private HCGenerationEditor _view;
+
         private HCModel _model;
+
         private SceneInteractor _sceneInteractor;
+        
+        private ButtonActionClient buttonActionClient;
+
 
         public HCPresenter(HCGenerationEditor view)
         {
@@ -68,11 +74,13 @@ namespace HexaCraft
                 _sceneInteractor.RegisterActionToSceneView(type);
 
             SetModeActive(type, !CheckModeActive(type));
+
+            // buttonActionClient.ButtonPushed();
         }
 
         public void OnButtonClicked()
         {
-
+            // buttonActionClient.ButtonPushed();
         }
 
         public void OnClearGridClicked()
@@ -115,7 +123,7 @@ namespace HexaCraft
             _sceneInteractor.ClearAllActionToSceneView();
         }
 
-        private bool IsSceneRegistrationRequire(ToggleButton type)
+        private bool IsSceneRegistrationRequire<TEnum>(TEnum type) where TEnum : Enum
         {
             var memberInfo = type.GetType().GetMember(type.ToString())[0];
             var attribute = memberInfo.GetCustomAttribute<SceneRegistrationAttribute>();
