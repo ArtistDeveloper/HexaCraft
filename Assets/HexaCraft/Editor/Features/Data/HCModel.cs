@@ -5,60 +5,64 @@ using UnityEngine;
 
 namespace HexaCraft
 {
-    // Model에는 공용으로 접근할 상태만 저장하는 것이 Prsetner와 연결된 로직의 복잡성을 줄여준다.
-    // 각 상태를 따로 관리해도 된다면, Model에 무조건 위임시키지는 말자.
     public class HCModel
     {
         private Dictionary<ToggleButton, bool> _isToggleActives;
-
         private Material _selectedMaterial = null;
-
         private List<GameObject> _selectedObjects = new List<GameObject>();
 
-
         public List<GameObject> SelectedObjects { get => _selectedObjects; }
-
-        public HexGridGenerator HexGenerator { get; } = new HexGridGenerator();
-
         public Material SelectedMaterial { get => _selectedMaterial; set => _selectedMaterial = value; }
-
+        public HexGridGenerator HexGenerator { get; } = new HexGridGenerator();
 
         public void Init()
         {
-            _isToggleActives = new Dictionary<ToggleButton, bool>()
+            _isToggleActives = new Dictionary<ToggleButton, bool>();
+
+            // 각 토글 타입에 대한 초기화
+            foreach (ToggleButton toggle in Enum.GetValues(typeof(ToggleButton)))
             {
-                { ToggleButton.MaterialEditing, false },
-                { ToggleButton.ObjectSelecting, false },
-                { ToggleButton.InspectorLocking, false }
-            };
+                _isToggleActives[toggle] = false;
+            }
         }
 
         public void ChangeToggleState(ToggleButton type, bool isModeActive)
         {
+            // 다른 토글들을 비활성화
+            // if (isModeActive)
+            // {
+            //     foreach (var toggle in _isToggleActives.Keys.ToList())
+            //     {
+            //         if (toggle != type)
+            //         {
+            //             _isToggleActives[toggle] = false;
+            //         }
+            //     }
+            // }
+
             _isToggleActives[type] = isModeActive;
-            _selectedObjects = new List<GameObject>(); // TODO: 추후 해당 부분도 커맨드 패턴 도입할 때 같이 리팩토링 필요
+            _selectedObjects.Clear();
+            
+            // 토글이 비활성화될 때 선택된 오브젝트들 초기화
+            // if (!isModeActive)
+            // {
+            //     _selectedObjects.Clear();
+            // }
         }
 
         public bool CheckModeActive(ToggleButton type)
         {
-            if (_isToggleActives.TryGetValue(type, out bool isActive))
-            {
-                return isActive;
-            }
-            else
-            {
-                throw new Exception("No ToggleMode");
-            }
+            return _isToggleActives.TryGetValue(type, out bool isActive) ? isActive : false;
         }
 
         public void AddSelectedObject(GameObject go)
         {
-            SelectedObjects.Add(go);
+            _selectedObjects.Add(go);
         }
 
         public void RemoveSelectedObject(GameObject go)
         {
-            SelectedObjects.Remove(go);
+            _selectedObjects.Remove(go);
         }
     }
 }

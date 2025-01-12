@@ -8,4 +8,9 @@ namespace HexaCraft
         ObjectSelecting,
         InspectorLocking,
     }
+
+    public enum Button
+    {
+        GridGenerating,
+    }
 }
