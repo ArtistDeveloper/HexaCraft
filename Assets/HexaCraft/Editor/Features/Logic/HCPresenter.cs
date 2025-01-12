@@ -105,7 +105,12 @@ namespace HexaCraft
             _model.ChangeToggleState(type, isModeActive);
         }
 
-        public void ClearAllActionToSceneView()
+        public void Dispose()
+        {
+            ClearAllActionToSceneView();
+        }
+
+        private void ClearAllActionToSceneView()
         {
             _sceneInteractor.ClearAllActionToSceneView();
         }
