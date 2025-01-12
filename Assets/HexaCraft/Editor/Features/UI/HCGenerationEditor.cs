@@ -117,7 +117,7 @@ namespace HexaCraft
 
             if (GUILayout.Button(GetToggleButtonText("Finish Change Material", "Change Material", ToggleButton.MaterialEditing)))
             {
-                _presenter.OnToggleClicked(ToggleButton.MaterialEditing, true);
+                _presenter.OnToggleClicked(ToggleButton.MaterialEditing);
             }
         }
 
@@ -138,13 +138,13 @@ namespace HexaCraft
             if (GUI.Button(new Rect(availableRect.x, availableRect.y, firstButtonWidth, _HorizonButtonHegiht),
                 GetToggleButtonText("Locked Inspector", "Unlocked Inspector", ToggleButton.InspectorLocking), buttonStyle))
             {
-                _presenter.OnToggleClicked(ToggleButton.InspectorLocking, false);
+                _presenter.OnToggleClicked(ToggleButton.InspectorLocking);
             }
 
             if (GUI.Button(new Rect(availableRect.x + firstButtonWidth, availableRect.y, secondButtonWidth, _HorizonButtonHegiht),
                 GetToggleButtonText("Finish Object Selector", "Select Object", ToggleButton.ObjectSelecting), buttonStyle))
             {
-                _presenter.OnToggleClicked(ToggleButton.ObjectSelecting, true);
+                _presenter.OnToggleClicked(ToggleButton.ObjectSelecting);
             }
         }
 

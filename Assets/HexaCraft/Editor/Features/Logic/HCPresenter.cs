@@ -63,9 +63,11 @@ namespace HexaCraft
             _view.UpdateSelectedMaterial(go, _model.SelectedMaterial);
         }
 
-        public void OnToggleClicked(ToggleButton type, bool enableSceneRegistration)
+        public void OnToggleClicked(ToggleButton type)
         {
-            if (enableSceneRegistration)
+            bool requiresSceneRegistration = IsSceneRegistrationRequire(type);
+
+            if (requiresSceneRegistration)
                 _sceneInteractor.RegisterActionToSceneView(type);
 
             SetModeActive(type, !CheckModeActive(type));
@@ -73,8 +75,8 @@ namespace HexaCraft
 
         public void OnButtonClicked()
         {
-            
-        } 
+
+        }
 
         public void OnClearGridClicked()
         {
@@ -109,6 +111,19 @@ namespace HexaCraft
         public void ClearAllActionToSceneView()
         {
             _sceneInteractor.ClearAllActionToSceneView();
+        }
+
+        private bool IsSceneRegistrationRequire(ToggleButton type)
+        {
+            switch (type)
+            {
+                case ToggleButton.MaterialEditing:
+                case ToggleButton.ObjectSelecting:
+                    return true;
+                case ToggleButton.InspectorLocking:
+                default:
+                    return false;
+            }
         }
     }
 }
