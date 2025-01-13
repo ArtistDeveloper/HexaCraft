@@ -10,8 +10,6 @@ namespace HexaCraft
         private HCGenerationEditor _view;
 
         private HCModel _model;
-
-        private SceneInteractor _sceneInteractor;
         
         private ButtonActionClient _buttonActionClient;
 
@@ -27,10 +25,6 @@ namespace HexaCraft
         {
             _model = new HCModel();
             _model.Init();
-
-            _sceneInteractor = new SceneInteractor(this);
-            _sceneInteractor.OnObjectClicked += HandleObjectClicked;
-            _sceneInteractor.OnMaterialEditingRequested += HandleMaterialEditing;
 
             _buttonActionClient = new ButtonActionClient(this);
         }
@@ -70,11 +64,6 @@ namespace HexaCraft
 
         public void OnToggleClicked(ToggleButton type)
         {
-            // bool requiresSceneRegistration = IsSceneRegistrationRequire(type);
-
-            // if (requiresSceneRegistration)
-            //     _sceneInteractor.RegisterActionToSceneView(type);
-
             _buttonActionClient.ButtonClicked(type);
             SetModeActive(type, !CheckModeActive(type));
         }
@@ -116,19 +105,7 @@ namespace HexaCraft
 
         public void Dispose()
         {
-            ClearAllActionToSceneView();
-        }
-
-        private void ClearAllActionToSceneView()
-        {
-            _sceneInteractor.ClearAllActionToSceneView();
-        }
-
-        private bool IsSceneRegistrationRequire<TEnum>(TEnum type) where TEnum : Enum
-        {
-            var memberInfo = type.GetType().GetMember(type.ToString())[0];
-            var attribute = memberInfo.GetCustomAttribute<SceneRegistrationAttribute>();
-            return attribute?.RequiresRegistration ?? false;
+            
         }
     }
 }
