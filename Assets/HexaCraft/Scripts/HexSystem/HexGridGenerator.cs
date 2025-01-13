@@ -97,6 +97,18 @@ namespace HexaCraft
 
         public Hex[,] GenerateGrid(int n, GameObject hexPrefab, float hexSize)
         {
+            if (hexPrefab == null)
+            {
+                UnityEngine.Debug.LogError("Hex Prefab cannot be null.");
+                return null;
+            }
+
+            if (n <= 0 || hexSize <= 0)
+            {
+                UnityEngine.Debug.LogError("Grid size and hex size must be greater than zero");
+                return null;
+            }
+
             _n = n;
             _hexPrefab = hexPrefab;
             _hexSize = hexSize;
