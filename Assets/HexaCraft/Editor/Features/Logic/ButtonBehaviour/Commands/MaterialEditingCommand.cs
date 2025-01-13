@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HexaCraft
 {
-    public class MaterialEditingCommand : ICommand
+    public class MaterialEditingCommand : ISceneCommand
     {
         public MaterialEditingReceiver _receiver;
 

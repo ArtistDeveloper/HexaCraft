@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HexaCraft
 {
-    public class ObjectSelecting : ICommand
+    public class ObjectSelecting : ISceneCommand
     {
         private readonly SceneInteractor _interactor;
 

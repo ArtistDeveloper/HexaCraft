@@ -5,8 +5,7 @@ namespace HexaCraft
 {
     public class MaterialEditingReceiver
     {
-        // TODO: _presenter를 직접 참조하는 것이 아닌, 이벤트 형식으로 변경할 필요 존재.
-        // private readonly HCPresenter _presenter;
+        private readonly HCPresenter _presenter;
 
         private Vector2 _mousePosition;
 
@@ -14,6 +13,10 @@ namespace HexaCraft
 
         private RaycastHit _hit;
 
+        public MaterialEditingReceiver(HCPresenter presenter)
+        {
+            _presenter = presenter;
+        }
 
         public void ApplyMaterialChange(Event evt)
         {
@@ -26,7 +29,7 @@ namespace HexaCraft
 
                 for (int i = 0; i < materials.GetLength(0); i++)
                 {
-                    // materials[i] = _presenter.GetSelectionMaterial();
+                    materials[i] = _presenter.GetSelectionMaterial();
                 }
 
                 selectedObject.GetComponent<Renderer>().sharedMaterials = materials;

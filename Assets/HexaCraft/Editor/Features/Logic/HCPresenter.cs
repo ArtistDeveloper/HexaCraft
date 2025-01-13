@@ -13,7 +13,7 @@ namespace HexaCraft
 
         private SceneInteractor _sceneInteractor;
         
-        private ButtonActionClient buttonActionClient;
+        private ButtonActionClient _buttonActionClient;
 
 
         public HCPresenter(HCGenerationEditor view)
@@ -31,6 +31,8 @@ namespace HexaCraft
             _sceneInteractor = new SceneInteractor(this);
             _sceneInteractor.OnObjectClicked += HandleObjectClicked;
             _sceneInteractor.OnMaterialEditingRequested += HandleMaterialEditing;
+
+            _buttonActionClient = new ButtonActionClient(this);
         }
 
         public void OnGenerateGridClicked(int n, GameObject hexPrefab, float hexSize)
@@ -68,14 +70,13 @@ namespace HexaCraft
 
         public void OnToggleClicked(ToggleButton type)
         {
-            bool requiresSceneRegistration = IsSceneRegistrationRequire(type);
+            // bool requiresSceneRegistration = IsSceneRegistrationRequire(type);
 
-            if (requiresSceneRegistration)
-                _sceneInteractor.RegisterActionToSceneView(type);
+            // if (requiresSceneRegistration)
+            //     _sceneInteractor.RegisterActionToSceneView(type);
 
+            _buttonActionClient.ButtonClicked(type);
             SetModeActive(type, !CheckModeActive(type));
-
-            // buttonActionClient.ButtonPushed();
         }
 
         public void OnButtonClicked()
