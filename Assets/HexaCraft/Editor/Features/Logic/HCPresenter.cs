@@ -33,32 +33,16 @@ namespace HexaCraft
         {
             _model.HexGenerator.GenerateGrid(n, hexPrefab, hexSize);
         }
-
-        private void HandleObjectClicked(GameObject go)
-        {
-            if (!_model.SelectedObjects.Contains(go))
-            {
-                _model.AddSelectedObject(go);
-            }
-
-            _view.UpdateSelectedObjects(_model.SelectedObjects);
-        }
-
-        // MaterialEditing이 일으킨 이벤트 처리
-        private void HandleMaterialEditing(GameObject go)
-        {
-            _view.UpdateSelectedMaterial(go, _model.SelectedMaterial);
-        }
-
+        
         public void OnToggleClicked(ToggleButton type)
         {
             _buttonActionClient.ButtonClicked(type);
             SetModeActive(type, !CheckModeActive(type));
         }
 
-        public void OnButtonClicked()
+        public void OnButtonClicked(Button type)
         {
-            // buttonActionClient.ButtonPushed();
+            // _buttonActionClient.ButtonClicked(type);
         }
 
         public void OnClearGridClicked()
@@ -74,6 +58,11 @@ namespace HexaCraft
         public List<GameObject> GetSelectedObjects()
         {
             return _model.SelectedObjects;
+        }
+
+        public void AddSelectedObject(GameObject go)
+        {
+            _model.AddSelectedObject(go);
         }
 
         public void SetSelctionMaterial(Material material)

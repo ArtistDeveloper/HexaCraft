@@ -19,15 +19,13 @@ namespace HexaCraft
 
         private void InitializeCommands()
         {
-            // Material Editing (Scene Command)
             MaterialEditingReceiver materialReceiver = new MaterialEditingReceiver(_presenter);
             MaterialEditingCommand materialCommand = new MaterialEditingCommand(materialReceiver);
             _invoker.SetCommand(ToggleButton.MaterialEditing, materialCommand);
 
-            // // Object Selecting (Scene Command)
-            // var objectReceiver = new ObjectSelectingReceiver();
-            // var objectCommand = new ObjectSelectingCommand(objectReceiver);
-            // _invoker.SetCommand(ToggleButton.ObjectSelecting, objectCommand);
+            ObjectSelectingReceiver objectReceiver = new ObjectSelectingReceiver(_presenter);
+            ObjectSelectingCommand objectCommand = new ObjectSelectingCommand(objectReceiver);
+            _invoker.SetCommand(ToggleButton.ObjectSelecting, objectCommand);
 
             // // Generate Grid (Normal Command)
             // var generateReceiver = new GenerateGridReceiver();

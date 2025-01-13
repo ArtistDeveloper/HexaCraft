@@ -24,15 +24,20 @@ namespace HexaCraft
             _ray = HandleUtility.GUIPointToWorldRay(_mousePosition);
             if (Physics.Raycast(_ray, out _hit))
             {
-                GameObject selectedObject = _hit.collider.gameObject;
-                Material[] materials = new Material[selectedObject.GetComponent<Renderer>().sharedMaterials.GetLength(0)];
+                GameObject go = _hit.collider.gameObject;
+                Renderer renderer = go.GetComponent<Renderer>();
+                if (renderer == null)
+                    return;
 
-                for (int i = 0; i < materials.GetLength(0); i++)
+                var originalMaterials = renderer.sharedMaterials;
+                Material[] newMaterials = new Material[originalMaterials.Length];
+
+                for (int i = 0; i < newMaterials.Length; i++)
                 {
-                    materials[i] = _presenter.GetSelectionMaterial();
+                    newMaterials[i] = _presenter.GetSelectionMaterial();
                 }
 
-                selectedObject.GetComponent<Renderer>().sharedMaterials = materials;
+                renderer.sharedMaterials = newMaterials;
             }
         }
     }

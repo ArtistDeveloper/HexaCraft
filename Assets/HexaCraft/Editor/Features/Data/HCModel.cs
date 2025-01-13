@@ -19,7 +19,6 @@ namespace HexaCraft
         {
             _isToggleActives = new Dictionary<ToggleButton, bool>();
 
-            // 각 토글 타입에 대한 초기화
             foreach (ToggleButton toggle in Enum.GetValues(typeof(ToggleButton)))
             {
                 _isToggleActives[toggle] = false;
