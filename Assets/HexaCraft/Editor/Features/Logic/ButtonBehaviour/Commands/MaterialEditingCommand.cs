@@ -5,9 +5,9 @@ namespace HexaCraft
 {
     public class MaterialEditingCommand : ISceneCommand
     {
-        public MaterialEditingReceiver _receiver;
+        public MaterialChange _receiver;
 
-        public MaterialEditingCommand(MaterialEditingReceiver receiver)
+        public MaterialEditingCommand(MaterialChange receiver)
         {
             _receiver = receiver;
         }

@@ -19,13 +19,17 @@ namespace HexaCraft
 
         private void InitializeCommands()
         {
-            MaterialEditingReceiver materialReceiver = new MaterialEditingReceiver(_presenter);
+            MaterialChange materialReceiver = new MaterialChange(_presenter);
             MaterialEditingCommand materialCommand = new MaterialEditingCommand(materialReceiver);
             _invoker.SetCommand(ToggleButton.MaterialEditing, materialCommand);
 
-            ObjectSelectingReceiver objectReceiver = new ObjectSelectingReceiver(_presenter);
+            ObjectSelection objectReceiver = new ObjectSelection(_presenter);
             ObjectSelectingCommand objectCommand = new ObjectSelectingCommand(objectReceiver);
             _invoker.SetCommand(ToggleButton.ObjectSelecting, objectCommand);
+
+            InspectorLock inspectorLock = new InspectorLock();
+            InspectorLockCommand inspectorLockCommand = new InspectorLockCommand(inspectorLock);
+            _invoker.SetCommand(ToggleButton.InspectorLocking, inspectorLockCommand);
 
             // // Generate Grid (Normal Command)
             // var generateReceiver = new GenerateGridReceiver();
@@ -33,17 +37,9 @@ namespace HexaCraft
             // _invoker.SetCommand(ButtonType.GenerateGrid, generateCommand);
         }
 
-
         public void ButtonClicked<TEnum>(TEnum type) where TEnum : Enum
         {
             _invoker.ExecuteCommand(type);
-        }
-
-        private bool IsSceneRegistrationRequire<TEnum>(TEnum type) where TEnum : Enum
-        {
-            var memberInfo = type.GetType().GetMember(type.ToString())[0];
-            var attribute = memberInfo.GetCustomAttribute<SceneRegistrationAttribute>();
-            return attribute?.RequiresRegistration ?? false;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace HexaCraft
 
         public void OnButtonClicked(Button type)
         {
-            // _buttonActionClient.ButtonClicked(type);
+            _buttonActionClient.ButtonClicked(type);
         }
 
         public void OnClearGridClicked()

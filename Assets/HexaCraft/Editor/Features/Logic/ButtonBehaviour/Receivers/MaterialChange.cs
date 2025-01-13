@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HexaCraft
 {
-    public class MaterialEditingReceiver
+    public class MaterialChange
     {
         private readonly HCPresenter _presenter;
 
@@ -13,7 +13,7 @@ namespace HexaCraft
 
         private RaycastHit _hit;
 
-        public MaterialEditingReceiver(HCPresenter presenter)
+        public MaterialChange(HCPresenter presenter)
         {
             _presenter = presenter;
         }

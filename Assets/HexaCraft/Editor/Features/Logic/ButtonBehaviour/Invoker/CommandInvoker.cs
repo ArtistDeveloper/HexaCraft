@@ -1,6 +1,6 @@
 using System;
+using System.Reflection;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,7 +25,10 @@ namespace HexaCraft
         public void ExecuteCommand(Enum type)
         {
             if (!_commands.TryGetValue(type, out var command))
+            {
+                Debug.LogAssertion("No Command");
                 return;
+            }
 
             if (command is ISceneCommand sceneCommand)
             {
@@ -65,6 +68,19 @@ namespace HexaCraft
                 SceneView.duringSceneGui -= wrapper;
             }
             _sceneActionWrappers.Clear();
+        }
+
+        /// <summary>
+        /// 필요시 Attribute 활용하여 SceneView 등록 필요한 로직 구분
+        /// </summary>
+        /// <typeparam name="TEnum"></typeparam>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private bool IsSceneRegistrationRequire<TEnum>(TEnum type) where TEnum : Enum
+        {
+            var memberInfo = type.GetType().GetMember(type.ToString())[0];
+            var attribute = memberInfo.GetCustomAttribute<SceneRegistrationAttribute>();
+            return attribute?.RequiresRegistration ?? false;
         }
     }
 }
