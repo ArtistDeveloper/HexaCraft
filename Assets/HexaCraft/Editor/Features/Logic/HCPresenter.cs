@@ -75,9 +75,9 @@ namespace HexaCraft
             return _model.CheckModeActive(type);
         }
 
-        public void SetModeActive(ToggleButton type, bool isModeActive)
+        public void SetModeActive(ToggleButton type, bool targetState)
         {
-            _model.ChangeToggleState(type, isModeActive);
+            _model.ChangeToggleState(type, targetState);
         }
 
         public void Dispose()

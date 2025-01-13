@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,28 +26,23 @@ namespace HexaCraft
             }
         }
 
-        public void ChangeToggleState(ToggleButton type, bool isModeActive)
+        public void ChangeToggleState(ToggleButton type, bool targetState)
         {
-            // 다른 토글들을 비활성화
-            // if (isModeActive)
-            // {
-            //     foreach (var toggle in _isToggleActives.Keys.ToList())
-            //     {
-            //         if (toggle != type)
-            //         {
-            //             _isToggleActives[toggle] = false;
-            //         }
-            //     }
-            // }
+            _isToggleActives[type] = targetState;
+            CleanState(type, targetState);
+        }
 
-            _isToggleActives[type] = isModeActive;
-            _selectedObjects.Clear();
-            
-            // 토글이 비활성화될 때 선택된 오브젝트들 초기화
-            // if (!isModeActive)
-            // {
-            //     _selectedObjects.Clear();
-            // }
+        private void CleanState(ToggleButton type, bool targetState)
+        {
+            if (targetState)
+                return;
+
+            switch (type)
+            {
+                case ToggleButton.ObjectSelecting:
+                    _selectedObjects.Clear();
+                    break;
+            }
         }
 
         public bool CheckModeActive(ToggleButton type)
