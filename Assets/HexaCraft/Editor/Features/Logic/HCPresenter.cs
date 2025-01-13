@@ -1,16 +1,18 @@
-using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using UnityEditor;
+
 
 namespace HexaCraft
 {
     public class HCPresenter : IPresenter
     {
+        private bool _isInspectorLocked = false;
+
         private HCGenerationEditor _view;
 
         private HCModel _model;
-        
+
         private ButtonActionClient _buttonActionClient;
 
 
@@ -27,13 +29,18 @@ namespace HexaCraft
             _model.Init();
 
             _buttonActionClient = new ButtonActionClient(this);
+
+            EditorApplication.update += CheckInspectorLockState;
+
+            // 초기 상태 동기화
+            _isInspectorLocked = ActiveEditorTracker.sharedTracker.isLocked;
         }
 
         public void OnGenerateGridClicked(int n, GameObject hexPrefab, float hexSize)
         {
             _model.HexGenerator.GenerateGrid(n, hexPrefab, hexSize);
         }
-        
+
         public void OnToggleClicked(ToggleButton type)
         {
             _buttonActionClient.ButtonClicked(type);
@@ -82,7 +89,29 @@ namespace HexaCraft
 
         public void Dispose()
         {
-            
+            EditorApplication.update -= CheckInspectorLockState;
+        }
+
+        private void CheckInspectorLockState()
+        {
+            bool currentLockState = ActiveEditorTracker.sharedTracker.isLocked;
+            if (_isInspectorLocked != currentLockState)
+            {
+                _isInspectorLocked = currentLockState;
+                _view.Repaint();
+            }
+        }
+
+        public void OnInspectorLockClicked()
+        {
+            _isInspectorLocked = !_isInspectorLocked;
+            ActiveEditorTracker.sharedTracker.isLocked = _isInspectorLocked;
+            _view.Repaint();
+        }
+
+        public bool IsInspectorLocked()
+        {
+            return _isInspectorLocked;
         }
     }
 }

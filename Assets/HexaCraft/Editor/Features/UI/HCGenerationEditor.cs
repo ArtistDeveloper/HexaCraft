@@ -89,6 +89,11 @@ namespace HexaCraft
             return _presenter.CheckModeActive(type) ? original : changed;
         }
 
+        private string GetInspectorLockButtonText()
+        {
+            return _presenter.IsInspectorLocked() ? "Locked Inspector" : "Unlocked Inspector";
+        }
+
         private void DrawGridGeneratingUI(float spaceSize, string label, GUIStyle style)
         {
             DrawCustomEditorHeader(spaceSize, label, style);
@@ -136,9 +141,9 @@ namespace HexaCraft
 
             // 얻은 Rect의 위치를 기준으로 버튼 배치
             if (GUI.Button(new Rect(availableRect.x, availableRect.y, firstButtonWidth, _HorizonButtonHegiht),
-                GetToggleButtonText("Locked Inspector", "Unlocked Inspector", ToggleButton.InspectorLocking), buttonStyle))
+                GetInspectorLockButtonText(), buttonStyle))
             {
-                _presenter.OnToggleClicked(ToggleButton.InspectorLocking);
+                _presenter.OnInspectorLockClicked();
             }
 
             if (GUI.Button(new Rect(availableRect.x + firstButtonWidth, availableRect.y, secondButtonWidth, _HorizonButtonHegiht),
