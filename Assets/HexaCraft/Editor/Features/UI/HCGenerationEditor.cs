@@ -35,9 +35,6 @@ namespace HexaCraft
         private Material _material;
         #endregion
 
-        // 테스트
-        bool toggleTest = false;
-
         private void OnEnable()
         {
             _presenter = new HCPresenterFactory().CreatePresenter(this) as HCPresenter;
