@@ -30,29 +30,61 @@ namespace HexaCraft
                 return;
             }
 
-            if (command is ISceneCommand sceneCommand)
-            {
-                ExecuteSceneCommand(sceneCommand);
-            }
-            else if (command is IBasicCommand basicCommand)
+            if (command is IBasicCommand basicCommand)
             {
                 basicCommand.Execute();
             }
+            else if (command is ISceneCommand sceneCommand)
+            {
+
+            }
         }
 
-        private void ExecuteSceneCommand(ISceneCommand command)
+        public void ExecuteToggleCommand(ToggleButton type, bool isActive)
+        {
+            if (!_commands.TryGetValue(type, out var command))
+            {
+                Debug.LogAssertion("No Command");
+                return;
+            }
+
+            if (command is ISceneCommand sceneCommand)
+            {
+                HandleSceneCommand(sceneCommand, isActive);
+            }
+        }
+
+        private void HandleSceneCommand(ISceneCommand command, bool isActive)
+        {
+            if (isActive)
+            {
+                if (!_sceneActionWrappers.ContainsKey(command))
+                {
+                    Debug.Log("SceneCommand 이벤트 등록");
+                    RegisterSceneCommand(command);
+                }
+            }
+            else
+            {
+                Debug.Log("SceneCommand 이벤트 해제");
+                UnregisterSceneCommand(command);
+            }
+        }
+
+        private void RegisterSceneCommand(ISceneCommand command)
+        {
+            var wrapper = CreateSceneActionWrapper(command);
+            _sceneActionWrappers[command] = wrapper;
+            SceneView.duringSceneGui += wrapper;
+            SceneView.RepaintAll();
+        }
+
+        private void UnregisterSceneCommand(ISceneCommand command)
         {
             if (_sceneActionWrappers.ContainsKey(command))
             {
                 SceneView.duringSceneGui -= _sceneActionWrappers[command];
                 _sceneActionWrappers.Remove(command);
-            }
-            else
-            {
-                var wrapper = CreateSceneActionWrapper(command);
-                _sceneActionWrappers[command] = wrapper;
-                SceneView.duringSceneGui += wrapper;
-                SceneView.RepaintAll();
             }
         }
 

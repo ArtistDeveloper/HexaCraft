@@ -1,4 +1,4 @@
-using HexaCraft;
+using UnityEditor;
 using UnityEngine;
 
 namespace HexaCraft
@@ -7,7 +7,7 @@ namespace HexaCraft
     {
         private HCPresenter _presenter;
 
-        private PathEditingState _currentState = PathEditingState.Idle;
+        private PathEditingState _currentState;
 
         private GameObject _startPoint;
 
@@ -17,27 +17,23 @@ namespace HexaCraft
         public PathManipulation(HCPresenter presenter)
         {
             _presenter = presenter;
+            _currentState = _presenter.GetPathEditingState();
         }
 
-        public void OnStateUpdate()
+        public void Execute(Event evt)
         {
-            switch (_currentState)
+            Vector2 mousePosition = evt.mousePosition;
+            Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                case PathEditingState.SelectingStart:
-                    // 시작점 선택 로직
-                    break;
-                case PathEditingState.SelectingGoal:
-                    // 도착점 선택 로직
-                    break;
-                case PathEditingState.ReadyToGenerate:
-                    // 경로 생성 준비 상태
-                    break;
+                GameObject go = hit.collider.gameObject;
+                HandleSelection(go);
             }
         }
 
         public void HandleSelection(GameObject selected)
         {
-            switch (_currentState)
+            switch (_presenter.GetPathEditingState())
             {
                 case PathEditingState.SelectingStart:
                     SetStartPoint(selected);
@@ -98,5 +94,4 @@ namespace HexaCraft
             renderer.SetPropertyBlock(propertyBlock);
         }
     }
-
 }

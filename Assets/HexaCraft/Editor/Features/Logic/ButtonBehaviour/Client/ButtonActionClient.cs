@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Unity.VisualScripting;
 
 namespace HexaCraft
 {
@@ -36,9 +37,15 @@ namespace HexaCraft
             _invoker.SetCommand(ToggleButton.PathEditing, pathCommand);
         }
 
-        public void ButtonClicked<TEnum>(TEnum type) where TEnum : Enum
+        public void ButtonClicked(Button type)
         {
             _invoker.ExecuteCommand(type);
+        }
+
+        public void ToggleButtonClicked(ToggleButton type)
+        {
+            bool isActive = _presenter.GetToggleActiveState(type);
+            _invoker.ExecuteToggleCommand(type, isActive);
         }
     }
 }

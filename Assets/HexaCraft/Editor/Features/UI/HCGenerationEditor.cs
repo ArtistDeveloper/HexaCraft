@@ -95,7 +95,7 @@ namespace HexaCraft
 
         private string GetToggleButtonText(string original, string changed, ToggleButton type)
         {
-            return _presenter.CheckToggleActive(type) ? original : changed;
+            return _presenter.GetToggleActiveState(type) ? original : changed;
         }
 
         private string GetInspectorLockButtonText()
@@ -162,8 +162,8 @@ namespace HexaCraft
         {
             DrawCustomEditorHeader(spaceSize, label, style);
 
-            var pathState = _presenter.GetPathEditingState();
-            string mainButtonText = pathState switch
+            var pathEditingState = _presenter.GetPathEditingState();
+            string mainButtonText = pathEditingState switch
             {
                 PathEditingState.Idle => "Start Path Editing",
                 PathEditingState.SelectingStart => "Select Start Point...",
@@ -173,7 +173,7 @@ namespace HexaCraft
             };
 
             // 현재 상태 표시
-            EditorGUILayout.HelpBox(GetPathStateDescription(pathState), MessageType.Info);
+            EditorGUILayout.HelpBox(GetPathStateDescription(pathEditingState), MessageType.Info);
 
             if (GUILayout.Button(mainButtonText))
             {

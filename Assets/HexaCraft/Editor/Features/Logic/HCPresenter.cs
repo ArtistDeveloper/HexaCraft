@@ -41,8 +41,8 @@ namespace HexaCraft
 
         public void OnToggleClicked(ToggleButton type)
         {
-            _buttonActionClient.ButtonClicked(type);
-            SetModeActive(type);
+            UpdateToggleState(type);
+            _buttonActionClient.ToggleButtonClicked(type);
         }
 
         public void OnButtonClicked(Button type)
@@ -75,9 +75,9 @@ namespace HexaCraft
 
         public void SetSelctionMaterial(Material material) => _model.SelectedMaterial = material;
 
-        public bool CheckToggleActive(ToggleButton type) => _model.CheckToggleActive(type);
+        public bool GetToggleActiveState(ToggleButton type) => _model.CheckToggleActive(type);
 
-        public void SetModeActive(ToggleButton type) => _model.ChangeToggleState(type);
+        public void UpdateToggleState(ToggleButton type) => _model.ChangeToggleState(type);
 
         public PathEditingState GetPathEditingState() => _model.GetToggleState<PathEditingState>(ToggleButton.PathEditing);
     }
