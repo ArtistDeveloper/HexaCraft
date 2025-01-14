@@ -11,8 +11,6 @@ namespace HexaCraft
     {
         private Dictionary<ToggleButton, IToggleState> _toggleStates;
 
-        private PathEditingState _pathEditingState = PathEditingState.Idle;
-
         private Material _selectedMaterial;
 
         private List<GameObject> _selectedObjects = new List<GameObject>();
@@ -33,8 +31,6 @@ namespace HexaCraft
         public int GridRadius { get => _gridRadius; set => _gridRadius = value; }
 
         public float HexCircumscribedRadius { get => _hexCircumscribedRadiusSize; set => _hexCircumscribedRadiusSize = value; }
-
-        public PathEditingState PathEditingState { get => _pathEditingState; set => _pathEditingState = value; }
 
 
         public HCModel()
@@ -75,7 +71,7 @@ namespace HexaCraft
             }
         }
 
-        public bool CheckModeActive(ToggleButton type)
+        public bool CheckToggleActive(ToggleButton type)
         {
             if (_toggleStates.TryGetValue(type, out IToggleState toggleState))
             {
@@ -83,6 +79,15 @@ namespace HexaCraft
             }
 
             throw new Exception("ToggleState doesen't exist");
+        }
+
+        public T GetToggleState<T>(ToggleButton type)
+        {
+            if (_toggleStates.TryGetValue(type, out IToggleState state))
+            {
+                return (T)state.GetState();
+            }
+            throw new Exception($"Toggle state not found for type: {type}");
         }
 
         public void AddSelectedObject(GameObject go)

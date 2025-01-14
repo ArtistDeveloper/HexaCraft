@@ -1,11 +1,10 @@
-using UnityEngine;
+using System;
 
 namespace HexaCraft
 {
     public class BinaryToggleState : IToggleState
     {
         private bool _isActive;
-        private bool _targetState;
 
         public void UpdateState()
         {
@@ -13,6 +12,11 @@ namespace HexaCraft
         }
 
         public bool IsActive()
+        {
+            return _isActive;
+        }
+
+        public Object GetState()
         {
             return _isActive;
         }

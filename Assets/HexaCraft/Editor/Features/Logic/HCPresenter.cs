@@ -50,11 +50,6 @@ namespace HexaCraft
             _buttonActionClient.ButtonClicked(type);
         }
 
-        public void OnPathEditingButtonClicked()
-        {
-
-        }
-
         public void OnInspectorLockClicked()
         {
             ActiveEditorTracker.sharedTracker.isLocked = !ActiveEditorTracker.sharedTracker.isLocked;
@@ -80,10 +75,10 @@ namespace HexaCraft
 
         public void SetSelctionMaterial(Material material) => _model.SelectedMaterial = material;
 
-        public bool CheckModeActive(ToggleButton type) => _model.CheckModeActive(type);
+        public bool CheckToggleActive(ToggleButton type) => _model.CheckToggleActive(type);
 
         public void SetModeActive(ToggleButton type) => _model.ChangeToggleState(type);
 
-        public PathEditingState GetPathEditingState() => _model.PathEditingState;
+        public PathEditingState GetPathEditingState() => _model.GetToggleState<PathEditingState>(ToggleButton.PathEditing);
     }
 }

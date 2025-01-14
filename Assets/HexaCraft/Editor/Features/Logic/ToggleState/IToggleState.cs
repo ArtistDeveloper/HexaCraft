@@ -1,7 +1,11 @@
-using UnityEngine;
+using System;
 
-public interface IToggleState
+namespace HexaCraft
 {
-    void UpdateState();
-    bool IsActive();
+    public interface IToggleState
+    {
+        void UpdateState();
+        bool IsActive();
+        Object GetState();
+    }
 }

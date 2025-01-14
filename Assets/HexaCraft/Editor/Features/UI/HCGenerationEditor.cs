@@ -95,7 +95,7 @@ namespace HexaCraft
 
         private string GetToggleButtonText(string original, string changed, ToggleButton type)
         {
-            return _presenter.CheckModeActive(type) ? original : changed;
+            return _presenter.CheckToggleActive(type) ? original : changed;
         }
 
         private string GetInspectorLockButtonText()

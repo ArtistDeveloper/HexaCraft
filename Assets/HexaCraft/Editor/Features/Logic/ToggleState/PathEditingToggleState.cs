@@ -1,4 +1,4 @@
-using UnityEngine;
+using System;
 
 namespace HexaCraft
 {
@@ -21,6 +21,11 @@ namespace HexaCraft
         public bool IsActive()
         {
             return CurrentState != PathEditingState.Idle;
+        }
+
+        public Object GetState()
+        {
+            return CurrentState;
         }
     }
 }
