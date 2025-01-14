@@ -20,11 +20,11 @@ namespace HexaCraft
         private void InitializeCommands()
         {
             MaterialChange materialReceiver = new MaterialChange(_presenter);
-            MaterialEditingCommand materialCommand = new MaterialEditingCommand(materialReceiver);
+            MaterialChangeCommand materialCommand = new MaterialChangeCommand(materialReceiver);
             _invoker.SetCommand(ToggleButton.MaterialChange, materialCommand);
 
             ObjectSelection objectReceiver = new ObjectSelection(_presenter);
-            ObjectSelectingCommand objectCommand = new ObjectSelectingCommand(objectReceiver);
+            ObjectSelectionCommand objectCommand = new ObjectSelectionCommand(objectReceiver);
             _invoker.SetCommand(ToggleButton.ObjectSelection, objectCommand);
 
             // // Generate Grid (Normal Command)

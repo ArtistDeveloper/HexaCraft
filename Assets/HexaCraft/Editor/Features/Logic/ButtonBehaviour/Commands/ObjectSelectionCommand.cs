@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace HexaCraft
 {
-    public class ObjectSelectingCommand : ISceneCommand
+    public class ObjectSelectionCommand : ISceneCommand
     {
         private ObjectSelection _receiver;
 
         private bool _isPressed;
 
-        public ObjectSelectingCommand(ObjectSelection receiver)
+        public ObjectSelectionCommand(ObjectSelection receiver)
         {
             _receiver = receiver;
         }

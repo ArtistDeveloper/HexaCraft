@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace HexaCraft
 {
-    public class MaterialEditingCommand : ISceneCommand
+    public class MaterialChangeCommand : ISceneCommand
     {
         public MaterialChange _receiver;
 
-        public MaterialEditingCommand(MaterialChange receiver)
+        public MaterialChangeCommand(MaterialChange receiver)
         {
             _receiver = receiver;
         }
