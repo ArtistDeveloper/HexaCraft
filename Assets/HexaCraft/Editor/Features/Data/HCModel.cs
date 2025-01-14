@@ -39,7 +39,7 @@ namespace HexaCraft
 
             switch (type)
             {
-                case ToggleButton.ObjectSelecting:
+                case ToggleButton.ObjectSelection:
                     _selectedObjects.Clear();
                     break;
             }

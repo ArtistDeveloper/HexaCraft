@@ -21,11 +21,11 @@ namespace HexaCraft
         {
             MaterialChange materialReceiver = new MaterialChange(_presenter);
             MaterialEditingCommand materialCommand = new MaterialEditingCommand(materialReceiver);
-            _invoker.SetCommand(ToggleButton.MaterialEditing, materialCommand);
+            _invoker.SetCommand(ToggleButton.MaterialChange, materialCommand);
 
             ObjectSelection objectReceiver = new ObjectSelection(_presenter);
             ObjectSelectingCommand objectCommand = new ObjectSelectingCommand(objectReceiver);
-            _invoker.SetCommand(ToggleButton.ObjectSelecting, objectCommand);
+            _invoker.SetCommand(ToggleButton.ObjectSelection, objectCommand);
 
             // // Generate Grid (Normal Command)
             // var generateReceiver = new GenerateGridReceiver();

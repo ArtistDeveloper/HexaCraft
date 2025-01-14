@@ -5,10 +5,10 @@ namespace HexaCraft
     public enum ToggleButton
     {
         [SceneRegistration(true)]
-        MaterialEditing,
+        MaterialChange,
 
         [SceneRegistration(true)]
-        ObjectSelecting,
+        ObjectSelection,
     }
 
     public enum Button

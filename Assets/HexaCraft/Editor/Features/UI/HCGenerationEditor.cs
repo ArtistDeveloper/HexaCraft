@@ -106,11 +106,6 @@ namespace HexaCraft
             {
                 _presenter.OnGenerateGridClicked(_n, _hexPrefab, _hexSize);
             }
-
-            // if (GUILayout.Button("Clear Grid"))
-            // {
-            //     _presenter.OnClearGridClicked();
-            // }
         }
 
         private void DrawMaterialEditingUI(float spaceSize, string label, GUIStyle style)
@@ -120,9 +115,9 @@ namespace HexaCraft
             _material = (Material)EditorGUILayout.ObjectField("Select Material", _presenter.GetSelectionMaterial(), typeof(Material), false);
             _presenter.SetSelctionMaterial(_material);
 
-            if (GUILayout.Button(GetToggleButtonText("Finish Change Material", "Change Material", ToggleButton.MaterialEditing)))
+            if (GUILayout.Button(GetToggleButtonText("Finish Change Material", "Change Material", ToggleButton.MaterialChange)))
             {
-                _presenter.OnToggleClicked(ToggleButton.MaterialEditing);
+                _presenter.OnToggleClicked(ToggleButton.MaterialChange);
             }
         }
 
@@ -147,9 +142,9 @@ namespace HexaCraft
             }
 
             if (GUI.Button(new Rect(availableRect.x + firstButtonWidth, availableRect.y, secondButtonWidth, _HorizonButtonHegiht),
-                GetToggleButtonText("Finish Object Selector", "Select Object", ToggleButton.ObjectSelecting), buttonStyle))
+                GetToggleButtonText("Finish Object Selector", "Select Object", ToggleButton.ObjectSelection), buttonStyle))
             {
-                _presenter.OnToggleClicked(ToggleButton.ObjectSelecting);
+                _presenter.OnToggleClicked(ToggleButton.ObjectSelection);
             }
         }
 
