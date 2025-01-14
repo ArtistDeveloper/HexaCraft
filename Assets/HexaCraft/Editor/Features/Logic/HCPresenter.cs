@@ -7,8 +7,6 @@ namespace HexaCraft
 {
     public class HCPresenter : IPresenter
     {
-        private bool _isInspectorLocked = false;
-
         private HCGenerationEditor _view;
 
         private HCModel _model;
@@ -26,14 +24,7 @@ namespace HexaCraft
         private void Init()
         {
             _model = new HCModel();
-            _model.Init();
-
             _buttonActionClient = new ButtonActionClient(this);
-
-            EditorApplication.update += CheckInspectorLockState;
-
-            // 초기 상태 동기화
-            _isInspectorLocked = ActiveEditorTracker.sharedTracker.isLocked;
         }
 
         public void OnGenerateGridClicked(int n, GameObject hexPrefab, float hexSize)
@@ -89,29 +80,18 @@ namespace HexaCraft
 
         public void Dispose()
         {
-            EditorApplication.update -= CheckInspectorLockState;
-        }
-
-        private void CheckInspectorLockState()
-        {
-            bool currentLockState = ActiveEditorTracker.sharedTracker.isLocked;
-            if (_isInspectorLocked != currentLockState)
-            {
-                _isInspectorLocked = currentLockState;
-                _view.Repaint();
-            }
+            
         }
 
         public void OnInspectorLockClicked()
         {
-            _isInspectorLocked = !_isInspectorLocked;
-            ActiveEditorTracker.sharedTracker.isLocked = _isInspectorLocked;
+            ActiveEditorTracker.sharedTracker.isLocked = !ActiveEditorTracker.sharedTracker.isLocked;
             _view.Repaint();
         }
 
         public bool IsInspectorLocked()
         {
-            return _isInspectorLocked;
+            return ActiveEditorTracker.sharedTracker.isLocked;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace HexaCraft
         public Material SelectedMaterial { get => _selectedMaterial; set => _selectedMaterial = value; }
         public HexGridGenerator HexGenerator { get; } = new HexGridGenerator();
 
-        public void Init()
+        public HCModel()
         {
             _isToggleActives = new Dictionary<ToggleButton, bool>();
 

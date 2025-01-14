@@ -46,7 +46,7 @@ namespace HexaCraft
 
         private void OnDisable()
         {
-            // _presenter.Dispose();
+            _presenter.Dispose();
         }
 
         private void Init()

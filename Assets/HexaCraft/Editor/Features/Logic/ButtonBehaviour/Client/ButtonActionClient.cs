@@ -27,10 +27,6 @@ namespace HexaCraft
             ObjectSelectingCommand objectCommand = new ObjectSelectingCommand(objectReceiver);
             _invoker.SetCommand(ToggleButton.ObjectSelecting, objectCommand);
 
-            InspectorLock inspectorLock = new InspectorLock();
-            InspectorLockCommand inspectorLockCommand = new InspectorLockCommand(inspectorLock);
-            _invoker.SetCommand(ToggleButton.InspectorLocking, inspectorLockCommand);
-
             // // Generate Grid (Normal Command)
             // var generateReceiver = new GenerateGridReceiver();
             // var generateCommand = new GenerateGridCommand(generateReceiver);

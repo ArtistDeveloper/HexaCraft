@@ -9,9 +9,6 @@ namespace HexaCraft
 
         [SceneRegistration(true)]
         ObjectSelecting,
-
-        [SceneRegistration(false)]
-        InspectorLocking,
     }
 
     public enum Button
