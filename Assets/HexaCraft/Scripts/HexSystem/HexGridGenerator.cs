@@ -95,7 +95,7 @@ namespace HexaCraft
             return HexTiles;
         }
 
-        public Hex[,] GenerateGrid(int n, GameObject hexPrefab, float hexSize)
+        public Hex[,] GenerateGrid(GameObject hexPrefab, int n, float hexSize)
         {
             if (hexPrefab == null)
             {

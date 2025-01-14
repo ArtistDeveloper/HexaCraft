@@ -27,9 +27,16 @@ namespace HexaCraft
             _buttonActionClient = new ButtonActionClient(this);
         }
 
-        public void OnGenerateGridClicked(int n, GameObject hexPrefab, float hexSize)
+        public void Dispose()
         {
-            _model.HexGenerator.GenerateGrid(n, hexPrefab, hexSize);
+
+        }
+
+        public void SetGridGenerationValues(GameObject hexPrefab, int n, float hexSize)
+        {
+            _model.HexPrefab = hexPrefab;
+            _model.GridRadius = n;
+            _model.HexCircumscribedRadius = hexSize;
         }
 
         public void OnToggleClicked(ToggleButton type)
@@ -43,46 +50,6 @@ namespace HexaCraft
             _buttonActionClient.ButtonClicked(type);
         }
 
-        public void OnClearGridClicked()
-        {
-            _model.HexGenerator.ClearGrid();
-        }
-
-        public Material GetSelectionMaterial()
-        {
-            return _model.SelectedMaterial;
-        }
-
-        public List<GameObject> GetSelectedObjects()
-        {
-            return _model.SelectedObjects;
-        }
-
-        public void AddSelectedObject(GameObject go)
-        {
-            _model.AddSelectedObject(go);
-        }
-
-        public void SetSelctionMaterial(Material material)
-        {
-            _model.SelectedMaterial = material;
-        }
-
-        public bool CheckModeActive(ToggleButton type)
-        {
-            return _model.CheckModeActive(type);
-        }
-
-        public void SetModeActive(ToggleButton type, bool targetState)
-        {
-            _model.ChangeToggleState(type, targetState);
-        }
-
-        public void Dispose()
-        {
-            
-        }
-
         public void OnInspectorLockClicked()
         {
             ActiveEditorTracker.sharedTracker.isLocked = !ActiveEditorTracker.sharedTracker.isLocked;
@@ -93,5 +60,23 @@ namespace HexaCraft
         {
             return ActiveEditorTracker.sharedTracker.isLocked;
         }
+
+        public GameObject GetHexPrefab() => _model.HexPrefab;
+
+        public int GetGridRadius() => _model.GridRadius;
+
+        public float GetHexCircumscribedRadius() => _model.HexCircumscribedRadius;
+
+        public Material GetSelectionMaterial() => _model.SelectedMaterial;
+
+        public List<GameObject> GetSelectedObjects() => _model.SelectedObjects;
+
+        public void AddSelectedObject(GameObject go) => _model.AddSelectedObject(go);
+
+        public void SetSelctionMaterial(Material material) => _model.SelectedMaterial = material;
+
+        public bool CheckModeActive(ToggleButton type) => _model.CheckModeActive(type);
+
+        public void SetModeActive(ToggleButton type, bool targetState) => _model.ChangeToggleState(type, targetState);
     }
 }

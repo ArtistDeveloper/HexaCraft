@@ -13,7 +13,7 @@ namespace HexaCraft
 
         public void Execute()
         {
-            
+            _receiver.GenerateGrid();
         }
     }
 }

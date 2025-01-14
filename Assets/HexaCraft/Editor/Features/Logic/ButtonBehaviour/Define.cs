@@ -13,6 +13,6 @@ namespace HexaCraft
 
     public enum Button
     {
-        GridGenerating,
+        GridGeneration,
     }
 }

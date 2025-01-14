@@ -19,18 +19,17 @@ namespace HexaCraft
 
         private void InitializeCommands()
         {
-            MaterialChange materialReceiver = new MaterialChange(_presenter);
-            MaterialChangeCommand materialCommand = new MaterialChangeCommand(materialReceiver);
+            var materialReceiver = new MaterialChange(_presenter);
+            var materialCommand = new MaterialChangeCommand(materialReceiver);
             _invoker.SetCommand(ToggleButton.MaterialChange, materialCommand);
 
-            ObjectSelection objectReceiver = new ObjectSelection(_presenter);
-            ObjectSelectionCommand objectCommand = new ObjectSelectionCommand(objectReceiver);
+            var objectReceiver = new ObjectSelection(_presenter);
+            var objectCommand = new ObjectSelectionCommand(objectReceiver);
             _invoker.SetCommand(ToggleButton.ObjectSelection, objectCommand);
 
-            // // Generate Grid (Normal Command)
-            // var generateReceiver = new GenerateGridReceiver();
-            // var generateCommand = new GenerateGridCommand(generateReceiver);
-            // _invoker.SetCommand(ButtonType.GenerateGrid, generateCommand);
+            var generateReceiver = new GridGeneration(_presenter);
+            var generateCommand = new GridGenerationCommand(generateReceiver);
+            _invoker.SetCommand(Button.GridGeneration, generateCommand);
         }
 
         public void ButtonClicked<TEnum>(TEnum type) where TEnum : Enum

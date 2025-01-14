@@ -28,9 +28,9 @@ namespace HexaCraft
         #region Property field
         private GameObject _hexPrefab;
 
-        private int _n;
+        private int _gridRadius;
 
-        private float _hexSize;
+        private float _hexCircumscribedRadiusSize;
 
         private Material _material;
         #endregion
@@ -96,12 +96,13 @@ namespace HexaCraft
             DrawCustomEditorHeader(spaceSize, label, style);
 
             _hexPrefab = (GameObject)EditorGUILayout.ObjectField("Hex Prefab", _hexPrefab, typeof(GameObject), false);
-            _n = EditorGUILayout.IntField("N", _n);
-            _hexSize = EditorGUILayout.FloatField("HexSize", _hexSize);
+            _gridRadius = EditorGUILayout.IntField("Grid Radius", _gridRadius);
+            _hexCircumscribedRadiusSize = EditorGUILayout.FloatField("Hex Model Radius", _hexCircumscribedRadiusSize);
+            _presenter.SetGridGenerationValues(_hexPrefab, _gridRadius, _hexCircumscribedRadiusSize);
 
             if (GUILayout.Button("Generate Grid"))
             {
-                _presenter.OnGenerateGridClicked(_n, _hexPrefab, _hexSize);
+                _presenter.OnButtonClicked(Button.GridGeneration);
             }
         }
 

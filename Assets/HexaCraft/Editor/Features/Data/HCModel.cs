@@ -9,12 +9,28 @@ namespace HexaCraft
     public class HCModel
     {
         private Dictionary<ToggleButton, bool> _isToggleActives;
+
         private Material _selectedMaterial = null;
+
         private List<GameObject> _selectedObjects = new List<GameObject>();
 
+        private GameObject _hexPrefab;
+
+        private int _gridRadius;
+
+        private float _hexCircumscribedRadiusSize;
+
+
         public List<GameObject> SelectedObjects { get => _selectedObjects; }
+
         public Material SelectedMaterial { get => _selectedMaterial; set => _selectedMaterial = value; }
-        public HexGridGenerator HexGenerator { get; } = new HexGridGenerator();
+
+        public GameObject HexPrefab { get => _hexPrefab; set => _hexPrefab = value; }
+
+        public int GridRadius { get => _gridRadius; set => _gridRadius = value; }
+
+        public float HexCircumscribedRadius { get => _hexCircumscribedRadiusSize; set => _hexCircumscribedRadiusSize = value; }
+
 
         public HCModel()
         {
