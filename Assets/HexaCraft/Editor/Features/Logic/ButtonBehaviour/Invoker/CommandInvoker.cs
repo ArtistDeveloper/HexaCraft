@@ -22,7 +22,7 @@ namespace HexaCraft
             _commands[type] = command;
         }
 
-        public void ExecuteCommand(Enum type)
+        public void ExecuteCommand(Enum type, bool? isActive = null)
         {
             if (!_commands.TryGetValue(type, out var command))
             {
@@ -34,23 +34,9 @@ namespace HexaCraft
             {
                 basicCommand.Execute();
             }
-            else if (command is ISceneCommand sceneCommand)
+            else if (command is ISceneCommand sceneCommand && isActive.HasValue)
             {
-
-            }
-        }
-
-        public void ExecuteToggleCommand(ToggleButton type, bool isActive)
-        {
-            if (!_commands.TryGetValue(type, out var command))
-            {
-                Debug.LogAssertion("No Command");
-                return;
-            }
-
-            if (command is ISceneCommand sceneCommand)
-            {
-                HandleSceneCommand(sceneCommand, isActive);
+                HandleSceneCommand(sceneCommand, isActive.Value);
             }
         }
 

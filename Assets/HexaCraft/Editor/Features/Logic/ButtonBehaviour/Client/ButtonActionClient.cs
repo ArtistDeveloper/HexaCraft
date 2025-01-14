@@ -45,7 +45,7 @@ namespace HexaCraft
         public void ToggleButtonClicked(ToggleButton type)
         {
             bool isActive = _presenter.GetToggleActiveState(type);
-            _invoker.ExecuteToggleCommand(type, isActive);
+            _invoker.ExecuteCommand(type, isActive);
         }
     }
 }
