@@ -53,7 +53,6 @@ namespace HexaCraft
         public void OnInspectorLockClicked()
         {
             ActiveEditorTracker.sharedTracker.isLocked = !ActiveEditorTracker.sharedTracker.isLocked;
-            _view.Repaint();
         }
 
         public bool IsInspectorLocked()
