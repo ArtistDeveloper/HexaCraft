@@ -14,7 +14,7 @@ namespace HexaCraft
         public ButtonActionClient(HCPresenter presenter)
         {
             _presenter = presenter;
-            _invoker = new CommandInvoker();
+            _invoker = new CommandInvoker(_presenter);
             InitializeCommands();
         }
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
 
 
 namespace HexaCraft
@@ -12,6 +13,8 @@ namespace HexaCraft
         private HCModel _model;
 
         private ButtonActionClient _buttonActionClient;
+
+        public event Action disposeAction;
 
 
         public HCPresenter(HCGenerationEditor view)
@@ -29,7 +32,7 @@ namespace HexaCraft
 
         public void Dispose()
         {
-
+            disposeAction.Invoke();
         }
 
         public void SetGridGenerationValues(GameObject hexPrefab, int n, float hexSize)

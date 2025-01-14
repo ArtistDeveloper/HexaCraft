@@ -8,13 +8,19 @@ namespace HexaCraft
 {
     public class CommandInvoker
     {
+        private HCPresenter _presenter;
+
         private readonly Dictionary<Enum, ICommand> _commands;
+
         private readonly Dictionary<ISceneCommand, Action<SceneView>> _sceneActionWrappers;
 
-        public CommandInvoker()
+
+        public CommandInvoker(HCPresenter presenter)
         {
             _commands = new Dictionary<Enum, ICommand>();
             _sceneActionWrappers = new Dictionary<ISceneCommand, Action<SceneView>>();
+            _presenter = presenter;
+            _presenter.disposeAction += ClearAllSceneActions;
         }
 
         public void SetCommand(Enum type, ICommand command)
