@@ -42,12 +42,17 @@ namespace HexaCraft
         public void OnToggleClicked(ToggleButton type)
         {
             _buttonActionClient.ButtonClicked(type);
-            SetModeActive(type, !CheckModeActive(type));
+            SetModeActive(type);
         }
 
         public void OnButtonClicked(Button type)
         {
             _buttonActionClient.ButtonClicked(type);
+        }
+
+        public void OnPathEditingButtonClicked()
+        {
+
         }
 
         public void OnInspectorLockClicked()
@@ -77,6 +82,8 @@ namespace HexaCraft
 
         public bool CheckModeActive(ToggleButton type) => _model.CheckModeActive(type);
 
-        public void SetModeActive(ToggleButton type, bool targetState) => _model.ChangeToggleState(type, targetState);
+        public void SetModeActive(ToggleButton type) => _model.ChangeToggleState(type);
+
+        public PathEditingState GetPathEditingState() => _model.PathEditingState;
     }
 }

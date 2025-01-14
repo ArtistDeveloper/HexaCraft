@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace HexaCraft
 {
     public class HCModel
     {
-        private Dictionary<ToggleButton, bool> _isToggleActives;
+        private Dictionary<ToggleButton, IToggleState> _toggleStates;
 
-        private Material _selectedMaterial = null;
+        private PathEditingState _pathEditingState = PathEditingState.Idle;
+
+        private Material _selectedMaterial;
 
         private List<GameObject> _selectedObjects = new List<GameObject>();
 
@@ -31,28 +34,21 @@ namespace HexaCraft
 
         public float HexCircumscribedRadius { get => _hexCircumscribedRadiusSize; set => _hexCircumscribedRadiusSize = value; }
 
+        public PathEditingState PathEditingState { get => _pathEditingState; set => _pathEditingState = value; }
+
 
         public HCModel()
         {
-            _isToggleActives = new Dictionary<ToggleButton, bool>();
+            _toggleStates = new Dictionary<ToggleButton, IToggleState>();
 
             foreach (ToggleButton toggle in Enum.GetValues(typeof(ToggleButton)))
             {
-                _isToggleActives[toggle] = false;
+                _toggleStates[toggle] = CreateToggleState(toggle);
             }
         }
 
-        public void ChangeToggleState(ToggleButton type, bool targetState)
+        private void CleanState(ToggleButton type)
         {
-            _isToggleActives[type] = targetState;
-            CleanState(type, targetState);
-        }
-
-        private void CleanState(ToggleButton type, bool targetState)
-        {
-            if (targetState)
-                return;
-
             switch (type)
             {
                 case ToggleButton.ObjectSelection:
@@ -61,9 +57,32 @@ namespace HexaCraft
             }
         }
 
+        private IToggleState CreateToggleState(ToggleButton type)
+        {
+            return type switch
+            {
+                ToggleButton.PathEditing => new PathEditingToggleState(),
+                _ => new BinaryToggleState(),
+            };
+        }
+
+        public void ChangeToggleState(ToggleButton type)
+        {
+            _toggleStates[type].UpdateState();
+            if (!_toggleStates[type].IsActive())
+            {
+                CleanState(type);
+            }
+        }
+
         public bool CheckModeActive(ToggleButton type)
         {
-            return _isToggleActives.TryGetValue(type, out bool isActive) ? isActive : false;
+            if (_toggleStates.TryGetValue(type, out IToggleState toggleState))
+            {
+                return toggleState.IsActive();
+            }
+
+            throw new Exception("ToggleState doesen't exist");
         }
 
         public void AddSelectedObject(GameObject go)

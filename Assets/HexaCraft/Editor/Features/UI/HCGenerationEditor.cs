@@ -81,6 +81,18 @@ namespace HexaCraft
             GUILayout.Label(label, style);
         }
 
+        private string GetPathStateDescription(PathEditingState state)
+        {
+            return state switch
+            {
+                PathEditingState.Idle => "Click 'Start Path Editing' to begin",
+                PathEditingState.SelectingStart => "Click on a hex to set the start point",
+                PathEditingState.SelectingGoal => "Click on a hex to set the goal point",
+                PathEditingState.ReadyToGenerate => "Ready to generate path",
+                _ => ""
+            };
+        }
+
         private string GetToggleButtonText(string original, string changed, ToggleButton type)
         {
             return _presenter.CheckModeActive(type) ? original : changed;
@@ -150,24 +162,23 @@ namespace HexaCraft
         {
             DrawCustomEditorHeader(spaceSize, label, style);
 
-            GUILayout.BeginHorizontal();
-
-            if (GUILayout.Button("Select Start Point"))
+            var pathState = _presenter.GetPathEditingState();
+            string mainButtonText = pathState switch
             {
+                PathEditingState.Idle => "Start Path Editing",
+                PathEditingState.SelectingStart => "Select Start Point...",
+                PathEditingState.SelectingGoal => "Select Goal Point...",
+                PathEditingState.ReadyToGenerate => "Generate Path",
+                _ => "Start Path Editing"
+            };
 
-            }
+            // 현재 상태 표시
+            EditorGUILayout.HelpBox(GetPathStateDescription(pathState), MessageType.Info);
 
-            if (GUILayout.Button("Selecte Goal Point"))
+            if (GUILayout.Button(mainButtonText))
             {
-
+                _presenter.OnToggleClicked(ToggleButton.PathEditing);
             }
-
-            if (GUILayout.Button("Generate Path"))
-            {
-
-            }
-
-            GUILayout.EndHorizontal();
         }
     }
 }
