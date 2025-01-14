@@ -30,6 +30,10 @@ namespace HexaCraft
             var generateReceiver = new GridGeneration(_presenter);
             var generateCommand = new GridGenerationCommand(generateReceiver);
             _invoker.SetCommand(Button.GridGeneration, generateCommand);
+
+            var pathReceiver = new PathManipulation(_presenter);
+            var pathCommand = new PathManipulationCommand(pathReceiver);
+            _invoker.SetCommand(ToggleButton.PathEditing, pathCommand);
         }
 
         public void ButtonClicked<TEnum>(TEnum type) where TEnum : Enum

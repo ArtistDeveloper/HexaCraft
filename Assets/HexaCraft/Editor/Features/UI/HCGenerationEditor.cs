@@ -72,7 +72,7 @@ namespace HexaCraft
             DrawGridGeneratingUI(_SubHeaderSpace, "HexaGrid Generation", _subHeaderStyle);
             DrawMaterialEditingUI(_SubHeaderSpace, "Material Changer", _subHeaderStyle);
             DrawObjectSelector(_SubHeaderSpace, "Object Selector", _subHeaderStyle);
-            // DrawPathEditingUI(_SubHeaderSpace, "Path Editing", _subHeaderStyle);
+            DrawPathEditingUI(_SubHeaderSpace, "Path Editing", _subHeaderStyle);
         }
 
         private void DrawCustomEditorHeader(float spaceSize, string label, GUIStyle style)
