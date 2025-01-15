@@ -33,6 +33,12 @@ namespace HexaCraft
 
         private Dictionary<GameObject, Material> _originalMaterials = new Dictionary<GameObject, Material>();
 
+        private GameObject _rootGrid;
+
+        private GameObject _startPoint;
+
+        private GameObject _goalPoaint;
+
         // 현재 작업 중인 시작점 (임시 저장용)
         private GameObject _currentStartPoint;
 
@@ -54,6 +60,12 @@ namespace HexaCraft
         public int GridRadius { get => _gridRadius; set => _gridRadius = value; }
 
         public float HexCircumscribedRadius { get => _hexCircumscribedRadiusSize; set => _hexCircumscribedRadiusSize = value; }
+
+        public GameObject RootGrid { get => _rootGrid; set => _rootGrid = value; }
+
+        public GameObject StartPoint {get => _startPoint; set => _startPoint = value; }
+
+        public GameObject GoalPoint{ get => _goalPoaint; set => _goalPoaint = value; }
 
 
         public HCModel()

@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.UI;
 using UnityEngine;
 
 namespace HexaCraft
@@ -6,8 +7,6 @@ namespace HexaCraft
     public class PathManipulation
     {
         private HCPresenter _presenter;
-
-        private PathEditingState _currentState;
 
         private GameObject _startPoint;
 
@@ -17,7 +16,6 @@ namespace HexaCraft
         public PathManipulation(HCPresenter presenter)
         {
             _presenter = presenter;
-            _currentState = _presenter.GetPathEditingState();
         }
 
         public void Execute(Event evt)
@@ -37,11 +35,9 @@ namespace HexaCraft
             {
                 case PathEditingState.SelectingStart:
                     SetStartPoint(selected);
-                    _currentState = PathEditingState.SelectingGoal;
                     break;
                 case PathEditingState.SelectingGoal:
                     SetGoalPoint(selected);
-                    _currentState = PathEditingState.ReadyToGenerate;
                     break;
             }
         }
@@ -52,6 +48,7 @@ namespace HexaCraft
                 ClearHighlight(_startPoint);
 
             _startPoint = selected;
+            _presenter.SetStartPoint(selected);
             ApplyHighlight(selected, Color.green);
         }
 
@@ -61,24 +58,13 @@ namespace HexaCraft
                 ClearHighlight(_goalPoint);
 
             _goalPoint = selected;
+            _presenter.SetGoalPoint(selected);
             ApplyHighlight(selected, Color.red);
         }
 
-        public void GeneratePath()
+        private void ApplyHighlight(GameObject selected, Color color)
         {
-            if (_startPoint == null || _goalPoint == null)
-                return;
-
-            // 경로 생성 로직
-            _currentState = PathEditingState.Idle;
-
-            _startPoint = null;
-            _goalPoint = null;
-        }
-
-        private void ApplyHighlight(GameObject go, Color color)
-        {
-            var renderer = go.GetComponent<Renderer>();
+            var renderer = selected.GetComponent<Renderer>();
             if (renderer == null) return;
 
             var propertyBlock = new MaterialPropertyBlock();

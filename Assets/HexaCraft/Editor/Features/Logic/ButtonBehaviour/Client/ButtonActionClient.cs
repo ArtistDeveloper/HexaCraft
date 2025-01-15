@@ -32,9 +32,13 @@ namespace HexaCraft
             var generateCommand = new GridGenerationCommand(generateReceiver);
             _invoker.SetCommand(Button.GridGeneration, generateCommand);
 
-            var pathReceiver = new PathManipulation(_presenter);
-            var pathCommand = new PathManipulationCommand(pathReceiver);
-            _invoker.SetCommand(ToggleButton.PathEditing, pathCommand);
+            var pathManipulationReceiver = new PathManipulation(_presenter);
+            var pathManipulationCommand = new PathManipulationCommand(pathManipulationReceiver);
+            _invoker.SetCommand(ToggleButton.PathEditing, pathManipulationCommand);
+
+            var pathGeneration = new PathGeneration(_presenter);
+            var pathGenerationCommand = new PathGenerationCommand(pathGeneration);
+            _invoker.SetCommand(Button.PathGeneration, pathGenerationCommand);
         }
 
         public void ButtonClicked(Button type)

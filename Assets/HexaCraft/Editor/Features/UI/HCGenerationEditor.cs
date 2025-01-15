@@ -33,6 +33,8 @@ namespace HexaCraft
         private float _hexCircumscribedRadiusSize;
 
         private Material _material;
+
+        private GameObject _pathPrefab;
         #endregion
 
         private void OnEnable()
@@ -174,20 +176,25 @@ namespace HexaCraft
 
             EditorGUILayout.HelpBox(GetPathStateDescription(pathEditingState), MessageType.Info);
 
-            // 버튼 활성화 상태 설정
-            bool shouldEnableButton = true;
-            if (pathEditingState == PathEditingState.SelectingStart ||
-                pathEditingState == PathEditingState.SelectingGoal)
+            // ReadyToGenerate 상태일 때만 Path Prefab 필드 표시
+            if (pathEditingState == PathEditingState.ReadyToGenerate)
             {
-                // 실제 게임 오브젝트의 선택 상태를 가져올 필요 존재
+                _pathPrefab = (GameObject)EditorGUILayout.ObjectField("Path Prefab", _pathPrefab, typeof(GameObject), true);
+                _presenter.SetRootGrid(_pathPrefab);
             }
 
-            GUI.enabled = shouldEnableButton;
             if (GUILayout.Button(mainButtonText))
             {
-                _presenter.OnToggleClicked(ToggleButton.PathEditing);
+                if (pathEditingState != PathEditingState.ReadyToGenerate)
+                {
+                    _presenter.OnToggleClicked(ToggleButton.PathEditing);
+                }
+                else
+                {
+                    _presenter.OnToggleClicked(ToggleButton.PathEditing);
+                    _presenter.OnButtonClicked(Button.PathGeneration);
+                }
             }
-            GUI.enabled = true;
         }
     }
 }

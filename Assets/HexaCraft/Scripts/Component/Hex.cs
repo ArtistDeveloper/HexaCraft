@@ -38,6 +38,7 @@ namespace HexaCraft
     public class Hex : MonoBehaviour
     {
         public GameObject HexTile { get; private set; }
+        
         public HexPos Pos { get; private set; }
 
         [field: SerializeField]

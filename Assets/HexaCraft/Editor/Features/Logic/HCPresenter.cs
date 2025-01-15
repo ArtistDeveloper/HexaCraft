@@ -77,6 +77,18 @@ namespace HexaCraft
 
         public void SetSelctionMaterial(Material material) => _model.SelectedMaterial = material;
 
+        public void SetRootGrid(GameObject rootGrid) => _model.RootGrid = rootGrid;
+
+        public void SetStartPoint(GameObject selected) => _model.StartPoint = selected;
+
+        public void SetGoalPoint (GameObject selected) => _model.GoalPoint = selected;
+
+        public GameObject GetRootGrid() => _model.RootGrid;
+
+        public GameObject GetStartPoint() => _model.StartPoint;
+
+        public GameObject GetGoalPoint() => _model.GoalPoint;
+
         public bool GetToggleActiveState(ToggleButton type) => _model.CheckToggleActive(type);
 
         public void UpdateToggleState(ToggleButton type) => _model.ChangeToggleState(type);

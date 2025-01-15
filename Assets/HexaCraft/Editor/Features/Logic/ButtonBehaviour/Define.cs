@@ -28,5 +28,7 @@ namespace HexaCraft
     public enum Button
     {
         GridGeneration,
+
+        PathGeneration,
     }
 }
