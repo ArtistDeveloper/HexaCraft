@@ -17,7 +17,6 @@ namespace HexaCraft
         private int _arrColSize;
 
 
-
         #region 생성자
         public HexGridGenerator() { }
 
@@ -165,19 +164,6 @@ namespace HexaCraft
         }
 
         /// <summary>
-        /// 육각형에 부착되어 있는 TMP에 q, r 좌표 표시
-        /// </summary>
-        /// <param name="q"></param>
-        /// <param name="r"></param>
-        /// <param name="hexTile"></param>
-        private void CheckPos(int q, int r, GameObject hexTile)
-        {
-            Transform textObj = hexTile.transform.GetChild(0);
-            TextMeshPro textComp = textObj.GetComponent<TextMeshPro>();
-            textComp.text = $"{q + _n},{r + _n}";
-        }
-
-        /// <summary>
         /// 좌표에 해당하는 HexTile을 생성 
         /// 음수 좌표를 포함하지 않도록 육각 그리드의 range범위만큼 offset을 더함
         /// </summary>
@@ -192,7 +178,7 @@ namespace HexaCraft
             go.name = $"{q + offset},{r + offset}";
 
             Hex hex = go.AddComponent<Hex>();
-            hex.Initialize(q + offset, r + offset, HexTileType.Path);
+            hex.Initialize(q + offset, r + offset, HexTileType.Blank);
             return go;
         }
 
