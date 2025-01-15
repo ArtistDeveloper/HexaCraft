@@ -21,7 +21,6 @@ namespace HexaCraft
             if (evt.type == EventType.MouseDown)
             {
                 evt.Use();
-                Debug.Log("호출되시나요?");
                 _receiver.Execute(evt);
             }
         }

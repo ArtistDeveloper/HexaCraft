@@ -172,13 +172,22 @@ namespace HexaCraft
                 _ => "Start Path Editing"
             };
 
-            // 현재 상태 표시
             EditorGUILayout.HelpBox(GetPathStateDescription(pathEditingState), MessageType.Info);
 
+            // 버튼 활성화 상태 설정
+            bool shouldEnableButton = true;
+            if (pathEditingState == PathEditingState.SelectingStart ||
+                pathEditingState == PathEditingState.SelectingGoal)
+            {
+                // 실제 게임 오브젝트의 선택 상태를 가져올 필요 존재
+            }
+
+            GUI.enabled = shouldEnableButton;
             if (GUILayout.Button(mainButtonText))
             {
                 _presenter.OnToggleClicked(ToggleButton.PathEditing);
             }
+            GUI.enabled = true;
         }
     }
 }

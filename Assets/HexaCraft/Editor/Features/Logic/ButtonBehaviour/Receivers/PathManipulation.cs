@@ -46,22 +46,22 @@ namespace HexaCraft
             }
         }
 
-        private void SetStartPoint(GameObject obj)
+        private void SetStartPoint(GameObject selected)
         {
             if (_startPoint != null)
                 ClearHighlight(_startPoint);
 
-            _startPoint = obj;
-            ApplyHighlight(obj, Color.green);
+            _startPoint = selected;
+            ApplyHighlight(selected, Color.green);
         }
 
-        private void SetGoalPoint(GameObject obj)
+        private void SetGoalPoint(GameObject selected)
         {
             if (_goalPoint != null)
                 ClearHighlight(_goalPoint);
 
-            _goalPoint = obj;
-            ApplyHighlight(obj, Color.red);
+            _goalPoint = selected;
+            ApplyHighlight(selected, Color.red);
         }
 
         public void GeneratePath()
@@ -71,16 +71,25 @@ namespace HexaCraft
 
             // 경로 생성 로직
             _currentState = PathEditingState.Idle;
+
+            _startPoint = null;
+            _goalPoint = null;
         }
 
-        private void ApplyHighlight(GameObject obj, Color color)
+        private void ApplyHighlight(GameObject go, Color color)
         {
-            var renderer = obj.GetComponent<Renderer>();
+            var renderer = go.GetComponent<Renderer>();
             if (renderer == null) return;
 
             var propertyBlock = new MaterialPropertyBlock();
             renderer.GetPropertyBlock(propertyBlock);
-            propertyBlock.SetColor("_Color", color);
+
+            // 기존 색상과 블렌드되도록 알파값을 조정
+            Color blendColor = new Color(color.r, color.g, color.b, 0.5f);
+            propertyBlock.SetColor("_EmissionColor", blendColor);
+
+            // Emission 활성화
+            renderer.sharedMaterial.EnableKeyword("_EMISSION");
             renderer.SetPropertyBlock(propertyBlock);
         }
 
@@ -90,8 +99,11 @@ namespace HexaCraft
             if (renderer == null) return;
 
             var propertyBlock = new MaterialPropertyBlock();
-            propertyBlock.Clear();
+            propertyBlock.SetColor("_EmissionColor", Color.black);
             renderer.SetPropertyBlock(propertyBlock);
+
+            // Emission 비활성화
+            renderer.sharedMaterial.DisableKeyword("_EMISSION");
         }
     }
 }

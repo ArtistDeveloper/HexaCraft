@@ -52,13 +52,11 @@ namespace HexaCraft
             {
                 if (!_sceneActionWrappers.ContainsKey(command))
                 {
-                    Debug.Log("SceneCommand 이벤트 등록");
                     RegisterSceneCommand(command);
                 }
             }
             else
             {
-                Debug.Log("SceneCommand 이벤트 해제");
                 UnregisterSceneCommand(command);
             }
         }

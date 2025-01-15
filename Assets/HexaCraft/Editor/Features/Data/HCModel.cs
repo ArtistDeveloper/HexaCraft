@@ -7,14 +7,37 @@ using UnityEngine.UI;
 
 namespace HexaCraft
 {
+    public struct PathPair
+    {
+        public GameObject Start { get; }
+        public GameObject Goal { get; }
+
+        public PathPair(GameObject start, GameObject goal)
+        {
+            Start = start;
+            Goal = goal;
+        }
+    }
+
+    // TODO:  추후 SceneView, Inspector 역할 분리하여 Model 클래스 분리 필요
     public class HCModel
     {
+        // SceneView Model
         private Dictionary<ToggleButton, IToggleState> _toggleStates;
 
         private Material _selectedMaterial;
 
         private List<GameObject> _selectedObjects = new List<GameObject>();
 
+        private List<PathPair> _pathPairs = new List<PathPair>();
+
+        private Dictionary<GameObject, Material> _originalMaterials = new Dictionary<GameObject, Material>();
+
+        // 현재 작업 중인 시작점 (임시 저장용)
+        private GameObject _currentStartPoint;
+
+
+        // Inspector Model
         private GameObject _hexPrefab;
 
         private int _gridRadius;
@@ -99,5 +122,30 @@ namespace HexaCraft
         {
             _selectedObjects.Remove(go);
         }
+
+        // public void AddStartPoint(GameObject point)
+        // {
+        //     if (point == null) return;
+        //     SaveOriginalMaterial(point);
+        //     _currentStartPoint = point;
+        // }
+
+        // public void AddGoalPoint(GameObject point)
+        // {
+        //     if (point == null || _currentStartPoint == null) return;
+        //     SaveOriginalMaterial(point);
+
+        //     _pathPairs.Add(new PathPair(_currentStartPoint, point));
+        //     _currentStartPoint = null;  // 새 쌍 생성 후 리셋
+        // }
+
+        // private void SaveOriginalMaterial(GameObject obj)
+        // {
+        //     var renderer = obj.GetComponent<Renderer>();
+        //     if (renderer && !_originalMaterials.ContainsKey(obj))
+        //     {
+        //         _originalMaterials[obj] = renderer.sharedMaterial;
+        //     }
+        // }
     }
 }
