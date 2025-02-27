@@ -37,7 +37,7 @@ namespace HexaCraft
 
     public class Hex : MonoBehaviour
     {
-        public GameObject HexTile { get; private set; }
+        public GameObject HexTile { get; set; }
         
         public HexPos Pos { get; private set; }
 

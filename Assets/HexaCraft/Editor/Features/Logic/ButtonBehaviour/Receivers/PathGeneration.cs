@@ -29,6 +29,7 @@ namespace HexaCraft
         }
 
         // HexPos를 얻으면, hexTiles에서 해당 HexPos를 통한 접근 후, GameObject에 접근해 매터리얼 변경
+        // FIXME: 다른 인스펙터를 다녀온 상황에서 초기화가 되면 hexTiles 배열 접근 시 nullreference 발생
         public void RenderHighLight(Hex[,] hexTiles, List<HexPos> hexPoses)
         {
             foreach (var hexPos in hexPoses)
