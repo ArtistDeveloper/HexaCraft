@@ -19,7 +19,7 @@ namespace HexaCraft
 
         public void GeneratePath()
         {
-            Hex[,] hexTiles = PathLoader.LoadPath(_presenter.GetRootGrid(), _presenter.GetGridRadius());
+            Hex[,] hexTiles = PathLoader.LoadPath(_presenter.GetRootGrid());
             HexPos startPoint = _presenter.GetStartPoint().GetComponent<Hex>().Pos;
             HexPos goalPoint = _presenter.GetGoalPoint().GetComponent<Hex>().Pos;
 

@@ -22,9 +22,14 @@ namespace HexaCraft
             }
         }
 
-        public static Hex[,] LoadPath(GameObject rootGrid, int gridRadius)
+        public static Hex[,] LoadPath(GameObject rootGrid, int gridRadius = -1)
         {
             LoadHexTileData(rootGrid);
+
+            if (gridRadius < 0) 
+            {
+                gridRadius = CalculateGridRadius(rootGrid);
+            }
 
             Hex[,] ret = new Hex[gridRadius * 2 + 1, gridRadius * 2 + 1];
 
@@ -35,6 +40,23 @@ namespace HexaCraft
             }
 
             return ret;
+        }
+
+        private static int CalculateGridRadius(GameObject rootGrid)
+        {
+            int minQ = int.MaxValue, maxQ = int.MinValue;
+            int minR = int.MaxValue, maxR = int.MinValue;
+
+            for (int i = 0; i < rootGrid.transform.childCount; i++)
+            {
+                Hex hex = rootGrid.transform.GetChild(i).GetComponent<Hex>();
+                minQ = Mathf.Min(minQ, hex.Pos.Q);
+                maxQ = Mathf.Max(maxQ, hex.Pos.Q);
+                minR = Mathf.Min(minR, hex.Pos.R);
+                maxR = Mathf.Max(maxR, hex.Pos.R);
+            }
+
+            return (maxQ - minQ) / 2;  // 또는 (maxR - minR) / 2 도 같은 값
         }
     }
 }
