@@ -41,7 +41,10 @@ namespace HexaCraft
                     break;
             }
         }
-
+        
+        // FIXME: 컴파일 및 reload 시 매터리얼 관련 정보가 날라간다. 이게 현재로선 편하긴한데, 
+        // 기능으로서 on, off가 가능하도록 분리할 수 있어야 한다.
+        // FIXME: StartPoint 관련 매티러일 변경 수정
         private void SetStartPoint(GameObject selected)
         {
             if (_startPoint != null)
@@ -52,6 +55,7 @@ namespace HexaCraft
             ApplyHighlight(selected, Color.green);
         }
 
+        // FIXME: GoalPoint 관련 매터리얼 변경 수정
         private void SetGoalPoint(GameObject selected)
         {
             if (_goalPoint != null)
