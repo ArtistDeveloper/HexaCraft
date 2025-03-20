@@ -4,6 +4,6 @@ namespace HexaCraft
 {
     public interface IPresenterFactory
     {
-        public IPresenter CreatePresenter(IView view);
+        public IPresenter CreatePresenter(IHCMainView view);
     }
 }
