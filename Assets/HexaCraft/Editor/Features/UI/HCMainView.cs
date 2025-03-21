@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace HexaCraft
 {
-    // [CustomEditor(typeof(HCGeneration))]
+    [CustomEditor(typeof(HCGeneration))]
     public class HCMainView : Editor, IHCMainView
     {
         private GUIStyle _mainHeaderStyle;
@@ -27,7 +27,7 @@ namespace HexaCraft
         public event Action<ToggleButton> ToggleButtonClicked;
 
         public event Action<Button> ButtonClicked;
-        
+
         public event Action InspectorLockRequested;
         #endregion
 

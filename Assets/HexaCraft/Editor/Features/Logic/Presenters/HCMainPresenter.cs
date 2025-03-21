@@ -34,6 +34,12 @@ namespace HexaCraft
         private void Init()
         {
             _model = new HCModel();
+
+            _mainView.UpdateMaterialButtonText("Change Material");
+            _mainView.UpdateInspectorLockButtonText("Locked Inspector");
+            _mainView.UpdateObjectSelectButtonText("Select Object");
+            _mainView.UpdatePathEditingDescriptionText("Click 'Start Path Editing to begin");
+            _mainView.UpdatePathEditingButtonText("Start Path Editing");
             // _buttonActionClient = new ButtonActionClient(this);
         }
 
