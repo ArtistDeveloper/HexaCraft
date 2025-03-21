@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace HexaCraft
 {
-    [CustomEditor(typeof(HCGeneration))]
+    // [CustomEditor(typeof(HCGeneration))]
     public class HCMainView : Editor, IHCMainView
     {
         private GUIStyle _mainHeaderStyle;
