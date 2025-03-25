@@ -8,6 +8,6 @@ namespace HexaCraft
     /// </summary>
     public class HCGeneration : MonoBehaviour
     {
-
+        
     }
 }

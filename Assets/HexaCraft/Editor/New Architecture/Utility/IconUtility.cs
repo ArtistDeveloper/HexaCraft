@@ -8,13 +8,13 @@ namespace HexaCraft
     [InitializeOnLoad]
     public static class IconUtility
     {
-        const string _iconPath = "Assets/HexaCraft/Editor/New Architecture/Utility/Icons/";
+        const string _iconPath = "Assets/HexaCraft/Content/Icons/";
         static Dictionary<string, Texture2D> _icons = new Dictionary<string, Texture2D>();
 
         public static Texture2D GetIcon(string iconName)
         {
-            // return Resources.Load<Texture2D>($"{_iconPath}{iconName}");
-            return null;
+            // return GetTextureInFolder(_iconPath, iconName);
+            return GetTextureInFolder(_iconPath, iconName + ((EditorGUIUtility.pixelsPerPoint > 1f) ? "@2x" : ""));
         }
 
         public static Texture2D GetTextureInFolder(string folder, string name)
