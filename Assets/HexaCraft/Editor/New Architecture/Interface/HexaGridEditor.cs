@@ -59,6 +59,8 @@ namespace HexaCraft
 
         private void OnSceneGUI(SceneView sceneView)
         {
+            Event e = Event.current;
+
 
         }
 
@@ -93,7 +95,7 @@ namespace HexaCraft
 
             if (GUILayout.Button("Generate Grid"))
             {
-
+                HexGridGeneration.GenerateGrid(_hexPrefab, _gridRadius, _hexCircumscribedRadiusSize);
             }
         }
     }
