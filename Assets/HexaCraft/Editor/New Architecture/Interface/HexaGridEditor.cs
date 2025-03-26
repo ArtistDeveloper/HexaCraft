@@ -40,8 +40,8 @@ namespace HexaCraft
 
             m_GCToolmodeIcons = new GUIContent[]
             {
-                EditorGUIUtility.TrIconContent(IconUtility.GetIcon("Toolbar/Hex"), "Hex type grid generation mode"),
-                EditorGUIUtility.TrIconContent(IconUtility.GetIcon("Toolbar/Rhombus"), "Rhombus type grid generation mode"),
+                EditorGUIUtility.TrIconContent(IconUtility.GetIcon("Toolbar/Hex"), EditorGUIContent.Tooltips.HEX_GRID),
+                EditorGUIUtility.TrIconContent(IconUtility.GetIcon("Toolbar/Rhombus"), EditorGUIContent.Tooltips.RHOMBUS_GRID),
             };
 
 #if UNITY_2019_1_OR_NEWER
@@ -89,14 +89,26 @@ namespace HexaCraft
 
         private void DrawGridGeneratingUI()
         {
-            _hexPrefab = (GameObject)EditorGUILayout.ObjectField("Hex Prefab", _hexPrefab, typeof(GameObject), false);
-            _gridRadius = EditorGUILayout.IntField("Grid Radius", _gridRadius);
-            _hexCircumscribedRadiusSize = EditorGUILayout.FloatField("Hex Model Radius", _hexCircumscribedRadiusSize);
+            _hexPrefab = (GameObject)EditorGUILayout.ObjectField(EditorGUIContent.Labels.HEX_PREFAB, _hexPrefab, typeof(GameObject), false);
+            _gridRadius = EditorGUILayout.IntField(EditorGUIContent.Labels.GRID_RADIUS, _gridRadius);
+            _hexCircumscribedRadiusSize = EditorGUILayout.FloatField(EditorGUIContent.Labels.HEX_MODEL_RADIUS, _hexCircumscribedRadiusSize);
 
-            if (GUILayout.Button("Generate Grid"))
+            if (GUILayout.Button(EditorGUIContent.Labels.GENERATE_GRID))
             {
                 HexGridGeneration.GenerateGrid(_hexPrefab, _gridRadius, _hexCircumscribedRadiusSize);
             }
         }
+
+        // private void DrawMaterialEditingUI(float spaceSize, string label, GUIStyle style)
+        // {
+        //     GUILayout.Label("Edit Hex Material", EditorStyles.boldLabel);
+
+        //     _material = (Material)EditorGUILayout.ObjectField("Select Material", _material, typeof(Material), false);
+
+        //     if (GUILayout.Button(GetToggleButtonText("Finish Change Material", "Change Material", ToggleButton.MaterialChange)))
+        //     {
+        //         _presenter.OnToggleClicked(ToggleButton.MaterialChange);
+        //     }
+        // }
     }
 }
