@@ -1,17 +1,33 @@
 using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
 
 namespace HexaCraft
 {
+    public enum EditorMode
+    {
+        None,
+        ObjectSelection,
+        MaterialEdit,
+        PathManipulation
+    }
+
     public class HexaGridEditor : EditorWindow
     {
         static HexaGridEditor s_instance = null;
         public static HexaGridEditor instance { get { return s_instance; } }
 
-
         private const int toolBarNum = 2;
 
         private GUIContent[] m_GCToolmodeIcons = null;
+
+        private EditorMode _currentMode;
+
+        private ISceneGUIHandler _activeHandler;
+
+        private MaterialEditHandler _materialEditHandler;
+
+        private NoneOperationHandler _noneOperationHandler;
 
 
         #region Input Property field
@@ -44,23 +60,22 @@ namespace HexaCraft
                 EditorGUIUtility.TrIconContent(IconUtility.GetIcon("Toolbar/Rhombus"), EditorGUIContent.Tooltips.RHOMBUS_GRID),
             };
 
+
+            _materialEditHandler = new MaterialEditHandler();
+            _noneOperationHandler = new NoneOperationHandler();
+
+            SetEditorMode(EditorMode.None);
+
 #if UNITY_2019_1_OR_NEWER
-            SceneView.duringSceneGui -= OnSceneGUI;
+            // SceneView.duringSceneGui -= OnSceneGUI;
 #else
-            SceneView.onSceneGUIDelegate -= OnSceneGUI;
+            // SceneView.onSceneGUIDelegate -= OnSceneGUI;
 #endif
         }
 
         private void OnGUI()
         {
             DrawGridTypeToolbar();
-        }
-
-        private void OnSceneGUI(SceneView sceneView)
-        {
-            Event e = Event.current;
-
-
         }
 
         /// <summary>
@@ -97,5 +112,22 @@ namespace HexaCraft
         //         _presenter.OnToggleClicked(ToggleButton.MaterialChange);
         //     }
         // }
+
+        private void SetEditorMode(EditorMode mode)
+        {
+            _currentMode = mode;
+
+            switch (_currentMode)
+            {
+                case EditorMode.None:
+                    _activeHandler = _noneOperationHandler;
+                    break;
+                case EditorMode.MaterialEdit:
+                    _activeHandler = _materialEditHandler;
+                    break;
+            }
+
+            SceneView.RepaintAll();
+        }
     }
 }
