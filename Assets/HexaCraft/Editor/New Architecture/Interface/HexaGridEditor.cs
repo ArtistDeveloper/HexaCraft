@@ -54,7 +54,6 @@ namespace HexaCraft
         private void OnGUI()
         {
             DrawGridTypeToolbar();
-            DrawGridGeneratingUI();
         }
 
         private void OnSceneGUI(SceneView sceneView)
@@ -84,18 +83,6 @@ namespace HexaCraft
             {
                 // BrushTool newTool = (BrushTool)(toolbarIndex + 1);
                 // SetTool(newTool == tool ? BrushTool.None : (BrushTool)toolbarIndex + 1);
-            }
-        }
-
-        private void DrawGridGeneratingUI()
-        {
-            _hexPrefab = (GameObject)EditorGUILayout.ObjectField(EditorGUIContent.Labels.HEX_PREFAB, _hexPrefab, typeof(GameObject), false);
-            _gridRadius = EditorGUILayout.IntField(EditorGUIContent.Labels.GRID_RADIUS, _gridRadius);
-            _hexCircumscribedRadiusSize = EditorGUILayout.FloatField(EditorGUIContent.Labels.HEX_MODEL_RADIUS, _hexCircumscribedRadiusSize);
-
-            if (GUILayout.Button(EditorGUIContent.Labels.GENERATE_GRID))
-            {
-                HexGridGeneration.GenerateGrid(_hexPrefab, _gridRadius, _hexCircumscribedRadiusSize);
             }
         }
 
