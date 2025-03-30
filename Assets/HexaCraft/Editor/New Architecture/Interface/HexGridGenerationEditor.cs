@@ -25,6 +25,8 @@ namespace HexaCraft
 
         private float _calculatedRadius;
 
+        private const int MAX_GRID_RADIUS = 50;
+
 
         [MenuItem("Tools/HexaCraft/Hexa Grid Generation Editor")]
         public static void ShowWindow()
@@ -64,10 +66,11 @@ namespace HexaCraft
                 );
             }
 
+            // TODO: 필요한 로직 추가
             if (EditorGUI.EndChangeCheck())
             {
                 // 선택된 그리드 타입에 따른 처리
-                // TODO: 필요한 로직 추가
+
             }
 
             EditorGUILayout.Space(10);
@@ -97,8 +100,12 @@ namespace HexaCraft
         private void DrawGridGeneratingUI()
         {
             GUILayout.Label("Hex Grid Generation", EditorStyles.boldLabel);
+
             _hexPrefab = (GameObject)EditorGUILayout.ObjectField(EditorGUIContent.Labels.HEX_PREFAB, _hexPrefab, typeof(GameObject), false);
-            _gridRadius = EditorGUILayout.IntField(EditorGUIContent.Labels.GRID_RADIUS, _gridRadius);
+
+            // IntField 대신 IntSlider를 사용하여 범위 제한
+            _gridRadius = EditorGUILayout.IntSlider(EditorGUIContent.Labels.GRID_RADIUS, _gridRadius, 1, MAX_GRID_RADIUS);
+
             _hexCircumscribedRadiusSize = EditorGUILayout.FloatField(EditorGUIContent.Labels.HEX_MODEL_RADIUS, _hexCircumscribedRadiusSize);
 
             if (GUILayout.Button(EditorGUIContent.Labels.GENERATE_GRID))
