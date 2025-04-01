@@ -3,6 +3,12 @@ using UnityEditor;
 
 namespace HexaCraft
 {
+    enum GridType
+    {
+        Hexagon = 0,
+        Rhombus = 1,
+    }
+
     public class HexGridGenerationEditor : EditorWindow
     {
         #region Input Property field
@@ -27,6 +33,8 @@ namespace HexaCraft
 
         private const int MAX_GRID_RADIUS = 50;
 
+        private GridType _gridType;
+
 
         private void OnEnable()
         {
@@ -35,6 +43,7 @@ namespace HexaCraft
                 EditorGUIUtility.TrIconContent(IconUtility.GetIcon("Toolbar/Hex"), EditorGUIContent.Tooltips.HEX_GRID),
                 EditorGUIUtility.TrIconContent(IconUtility.GetIcon("Toolbar/Rhombus"), EditorGUIContent.Tooltips.RHOMBUS_GRID),
             };
+            _gridType = GridType.Hexagon;
         }
 
         private void OnGUI()
@@ -50,21 +59,17 @@ namespace HexaCraft
 
             EditorGUI.BeginChangeCheck();
 
-            using (new GUILayout.HorizontalScope())
-            {
-                _selectedGridTypeIndex = GUILayout.Toolbar(
-                    _selectedGridTypeIndex,
-                    _gridTypeIcons,
-                    GUILayout.Width(position.width - 6),
-                    GUILayout.Height(23)
-                );
-            }
-
-            // TODO: 필요한 로직 추가
+            _selectedGridTypeIndex = GUILayout.SelectionGrid(
+                _selectedGridTypeIndex,
+                _gridTypeIcons,
+                _gridTypeIcons.Length,
+                GUILayout.Width(position.width - 6)
+            );
+            
+            // 선택된 그리드 타입에 따른 처리
             if (EditorGUI.EndChangeCheck())
             {
-                // 선택된 그리드 타입에 따른 처리
-
+                _gridType = (GridType)_selectedGridTypeIndex;
             }
 
             EditorGUILayout.Space(10);
@@ -104,7 +109,15 @@ namespace HexaCraft
 
             if (GUILayout.Button(EditorGUIContent.Labels.GENERATE_GRID))
             {
-                HexGridGeneration.GenerateGrid(_hexPrefab, _gridRadius, _hexCircumscribedRadiusSize);
+                switch (_gridType)
+                {
+                    case GridType.Hexagon:
+                        HexGridGeneration.GenerateHexGrid(_hexPrefab, _gridRadius, _hexCircumscribedRadiusSize);
+                        break;
+                    case GridType.Rhombus:
+                        HexGridGeneration.GenerateRhombusGrid(_hexPrefab, _gridRadius, _hexCircumscribedRadiusSize);
+                        break;
+                }
             }
         }
     }

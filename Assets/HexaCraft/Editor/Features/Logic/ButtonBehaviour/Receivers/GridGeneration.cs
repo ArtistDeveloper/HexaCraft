@@ -16,7 +16,7 @@ namespace HexaCraft
 
         public void GenerateGrid()
         {
-            _hexGridGenerator.GenerateGrid(
+            _hexGridGenerator.GenerateHexGrid(
                 _presenter.GetHexPrefab(),
                 _presenter.GetGridRadius(),
                 _presenter.GetHexCircumscribedRadius()
