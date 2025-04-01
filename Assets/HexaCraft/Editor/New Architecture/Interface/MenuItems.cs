@@ -6,21 +6,21 @@ namespace HexaCraft
 {
     public static class MenuItems
     {
-        static HexaGridEditor editor
+        static HexGridEditEditor editor
         {
-            get { return HexaGridEditor.instance; }
+            get { return HexGridEditEditor.Instance; }
         }
 
-        // [MenuItem("Tools/" + PrefUtility.productName + "/Polybrush Window %#v", false, PrefUtility.menuEditor)]
-        // public static void MenuInitEditorWindow()
-        // {
-        //     EditorWindow.GetWindow<PolybrushEditor>(PolybrushEditor.s_FloatingWindow).Show();
-        // }
+        [MenuItem("Tools/" + PrefUtility.productName + "/Hex Grid Generation Window")]
+        public static void MenuInitEditorWindow()
+        {
+            EditorWindow.GetWindow<HexGridGenerationEditor>("Hex Grid Generation Editor");
+        }
 
-        // [MenuItem("Tools/" + PrefUtility.productName + "/Bake Vertex Streams", false, PrefUtility.menuBakeVertexStreams)]
-        // public static void Init()
-        // {
-        //     EditorWindow.GetWindow<BakeAdditionalVertexStreams>(true, "Bake Vertex Streams", true);
-        // }
+        [MenuItem("Tools/" + PrefUtility.productName + "/Hex Grid Window")]
+        public static void Init()
+        {
+            EditorWindow.GetWindow<HexGridEditEditor>("Hex Grid Editor");
+        }
     }
 }

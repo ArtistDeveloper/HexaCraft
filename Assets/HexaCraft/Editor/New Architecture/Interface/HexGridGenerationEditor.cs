@@ -28,12 +28,6 @@ namespace HexaCraft
         private const int MAX_GRID_RADIUS = 50;
 
 
-        [MenuItem("Tools/HexaCraft/Hexa Grid Generation Editor")]
-        public static void ShowWindow()
-        {
-            GetWindow<HexGridGenerationEditor>("Hexa Grid Generation Editor");
-        }
-
         private void OnEnable()
         {
             _gridTypeIcons = new GUIContent[]
