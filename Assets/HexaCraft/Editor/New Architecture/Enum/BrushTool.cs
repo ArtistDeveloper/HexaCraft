@@ -17,8 +17,10 @@ namespace HexaCraft
             switch (tool)
             {
                 case BrushTool.MaterialChange:
+                    Debug.Log("MaterailChange");
                     return typeof(BrushModeMaterial);
                 case BrushTool.HexTileEdit:
+                    Debug.Log("HexTileEdit");
                     return typeof(BrushModeHexTile);
                 default:
                     return null;
