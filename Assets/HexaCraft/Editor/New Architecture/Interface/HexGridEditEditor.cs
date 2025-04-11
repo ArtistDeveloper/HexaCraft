@@ -1,20 +1,13 @@
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace HexaCraft
 {
-    public enum EditorMode
-    {
-        None,
-        MaterialEdit,
-        ObjectSelection,
-        PathManipulation
-    }
-
-
     public class HexGridEditEditor : EditorWindow
     {
-        static HexGridEditEditor s_instance = null;
+        private static HexGridEditEditor s_instance = null;
 
         public static HexGridEditEditor Instance { get { return s_instance; } }
 
@@ -22,29 +15,27 @@ namespace HexaCraft
 
         private GUIContent[] m_GCToolmodeIcons = null;
 
-        private EditorMode _currentMode;
 
-        private ISceneGUIHandler _activeHandler;
+        // [SerializeField] TODO : 붙일지 말지 고민. 공부필요
+        BrushMode mode;
 
-        private MaterialEditHandler _materialEditHandler;
+        public BrushTool tool = BrushTool.None;
 
-        private NoneOperationHandler _noneOperationHandler;
-        
+
 
         private void OnEnable()
         {
-            HexGridEditEditor.s_instance = this;
+            s_instance = this;
 
             m_GCToolmodeIcons = new GUIContent[]
             {
                 EditorGUIUtility.TrIconContent(IconUtility.GetIcon("Toolbar/Hex"), EditorGUIContent.Tooltips.HEX_GRID),
                 EditorGUIUtility.TrIconContent(IconUtility.GetIcon("Toolbar/Rhombus"), EditorGUIContent.Tooltips.RHOMBUS_GRID),
+                EditorGUIUtility.TrIconContent(IconUtility.GetIcon("Toolbar/Rhombus"), EditorGUIContent.Tooltips.RHOMBUS_GRID),
             };
 
-            _materialEditHandler = new MaterialEditHandler();
-            _noneOperationHandler = new NoneOperationHandler();
 
-            SetEditorMode(EditorMode.None);
+            SetTool(BrushTool.MaterialChange, false);
 
 #if UNITY_2019_1_OR_NEWER
             // SceneView.duringSceneGui -= OnSceneGUI;
@@ -55,7 +46,13 @@ namespace HexaCraft
 
         private void OnGUI()
         {
-            DrawGridTypeToolbar();
+            DrawToolbar();
+
+
+            // TODO: 이런 느낌으로 Toolbar 별 렌더링 
+            if (tool != BrushTool.None)
+                DrawActiveToolmodeSettings();
+
         }
 
         private void OnSceneGUI()
@@ -63,13 +60,21 @@ namespace HexaCraft
 
         }
 
-        private void DrawGridTypeToolbar()
+        private void DrawActiveToolmodeSettings()
+        {
+            using (new GUILayout.VerticalScope())
+            {
+                mode.DrawGUI();
+            }
+        }
+
+        private void DrawToolbar()
         {
             GUILayout.Label("Select Editing Type", EditorStyles.boldLabel);
 
             EditorGUI.BeginChangeCheck(); // 변경 사항 체크
 
-            int toolbarIndex = toolBarNum; // 선택된 버튼
+            int toolbarIndex = (int)tool - 1; // 선택된 버튼
 
             using (new GUILayout.HorizontalScope())
             {
@@ -78,26 +83,49 @@ namespace HexaCraft
 
             if (EditorGUI.EndChangeCheck()) // 변경 사항이 있으면 아래 코드 실행
             {
-                // BrushTool newTool = (BrushTool)(toolbarIndex + 1);
-                // SetTool(newTool == tool ? BrushTool.None : (BrushTool)toolbarIndex + 1);
+                BrushTool newTool = (BrushTool)(toolbarIndex + 1);
+                SetTool(newTool == tool ? BrushTool.None : (BrushTool)toolbarIndex + 1);
             }
         }
 
-        private void SetEditorMode(EditorMode mode)
+        internal void SetTool(BrushTool brushTool, bool enableTool = true)
         {
-            _currentMode = mode;
+            if (brushTool == tool && mode != null)
+                return;
 
-            switch (_currentMode)
+            if (mode != null)
             {
-                case EditorMode.None:
-                    _activeHandler = _noneOperationHandler;
-                    break;
-                case EditorMode.MaterialEdit:
-                    _activeHandler = _materialEditHandler;
-                    break;
+                // Exiting edit mode
+                // if (m_LastHoveredGameObject != null)
+                // {
+                //     OnBrushExit(m_LastHoveredGameObject);
+                //     FinalizeAndResetHovering();
+                // }
+
+                // mode.OnDisable();
             }
 
-            SceneView.RepaintAll();
+            // m_LastHoveredGameObject = null;
+
+            System.Type modeType = brushTool.GetModeType();
+
+            if (modeType != null)
+            {
+                if (mode == null)
+                    mode = (BrushMode)ScriptableObject.CreateInstance(modeType);
+            }
+
+            // Handle tool auto activation/deactivation.
+            tool = enableTool ? brushTool : BrushTool.None;
+
+            if (tool != BrushTool.None)
+            {
+                Tools.current = Tool.None;
+                mode.OnEnable();
+            }
+
+            // EnsureBrushSettingsListIsValid();
+            // DoRepaint();
         }
     }
 }
