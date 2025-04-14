@@ -111,7 +111,6 @@ namespace HexaCraft
             }
         }
 
-        // 
         internal void SetTool(BrushTool brushTool, bool enableTool = true)
         {
             // newTool == tool을 통해 None값을 받았을 때는,
@@ -121,7 +120,7 @@ namespace HexaCraft
 
             if (mode != null)
             {
-                // Exiting edit mode
+                // mode가 존재한다면 mode 탈출
                 // if (m_LastHoveredGameObject != null)
                 // {
                 //     OnBrushExit(m_LastHoveredGameObject);
@@ -138,21 +137,17 @@ namespace HexaCraft
 
             if (modeType != null)
             {
-                // FIXME: 왜 해당하는 타입은 가져오는데, 이에 맞는 UI는 렌더링 안되는거지?
-                // 아 !!! Mode 객체가 삭제가 안되네 ㅋㅋㅋ
-                // 이걸 어케하나.. 이래서 List를 쓴건가?
+                // modes 리스트에서 현재 선택된 modeType과 일치하는 BrushMode 객체를 탐색하고 반환한다.
                 mode = modes.FirstOrDefault(x => x != null && x.GetType() == modeType);
 
-                // 해당하는 brushTool enum이 가리키는 type의 인스턴스를 생성
+                // 만약 mode 객체가 null이라면 해당하는 type의 객체 생성
                 if (mode == null)
                 {
                     mode = (BrushMode)ScriptableObject.CreateInstance(modeType);
-                    Debug.Log($"mode type : {mode.GetType().Name}");
                 }
-
             }
 
-            // Handle tool auto activation/deactivation.
+            // tool을 자동으로 활성화/비활성화를 처리
             tool = enableTool ? brushTool : BrushTool.None;
 
             if (tool != BrushTool.None)

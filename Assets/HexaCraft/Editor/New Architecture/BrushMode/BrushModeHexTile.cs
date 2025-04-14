@@ -11,7 +11,6 @@ namespace HexaCraft
 
         public override void DrawGUI()
         {
-            Debug.Log("BrushModeHexTile의 DrawGUI 호출되나요?");
             GUILayout.TextField("HexTileEdit Field");
         }
     }
