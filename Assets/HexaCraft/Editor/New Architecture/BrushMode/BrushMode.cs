@@ -14,7 +14,7 @@ namespace HexaCraft
 
         }
 
-        public virtual void OnBrushEnter()
+        public virtual void OnBrushEnter(GameObject target)
         {
 
         }
@@ -28,6 +28,8 @@ namespace HexaCraft
         {
 
         }
+
+        public abstract void OnBrushApply(GameObject target);
 
         public abstract void RegisterUndo(); // BrushTarget brushTarget
 

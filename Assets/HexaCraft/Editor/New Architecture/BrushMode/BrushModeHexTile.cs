@@ -13,5 +13,10 @@ namespace HexaCraft
         {
             GUILayout.TextField("HexTileEdit Field");
         }
+
+        public override void OnBrushApply(GameObject target)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
