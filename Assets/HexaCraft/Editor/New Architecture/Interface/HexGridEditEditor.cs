@@ -29,15 +29,17 @@ namespace HexaCraft
 
         private const int toolBarNum = 2;
 
-        private GUIContent[] m_GCToolmodeIcons = null;
+        private GUIContent[] m_GCToolmodeIcons;
 
 
         // TODO : [SerializeField] 붙일지 말지 고민. 공부필요
         List<BrushMode> modes = new List<BrushMode>();
 
-        public BrushTool tool = BrushTool.None;
+        public BrushTool brushTool = BrushTool.None;
 
-        private GameObject _lastHoveredGameObject = null;
+        private GameObject _lastHoveredGameObject;
+
+        private bool isHoverHextile;
 
         internal BrushMode mode
         {
@@ -88,7 +90,7 @@ namespace HexaCraft
         {
             DrawToolbar();
 
-            if (tool != BrushTool.None)
+            if (brushTool != BrushTool.None)
                 DrawActiveToolmodeSettings();
         }
 
@@ -104,8 +106,6 @@ namespace HexaCraft
 
             switch (e.GetTypeForControl(controlID))
             {
-                // 이 부분에서 마우스 아이콘 변하는 것을 구현해야 할 듯
-                // // 브러시 업데이트 (OnBrushEnter, OnBrushExit, OnBrushMove 처리)
                 case EventType.MouseMove:
                     UpdateBrush(mousePosition);
                     break;
@@ -115,6 +115,27 @@ namespace HexaCraft
                     UpdateBrush(mousePosition);
                     ApplyBrush();
                     break;
+                case EventType.Repaint:
+                    DrawGizmos();
+                    break;
+            }
+
+            sceneView.Repaint();
+            SceneView.RepaintAll();
+        }
+
+        // NOTE: 추후 burshMode 내부의 함수로 옮겨질 가능성 존재
+        private void DrawGizmos()
+        {
+            if (isHoverHextile)
+            {
+                Rect cursorRect = new Rect(0, 0, Screen.width, Screen.height);
+                EditorGUIUtility.AddCursorRect(cursorRect, MouseCursor.Pan);
+            }
+            else
+            {
+                Rect cursorRect = new Rect(0, 0, Screen.width, Screen.height);
+                EditorGUIUtility.AddCursorRect(cursorRect, MouseCursor.Arrow);
             }
         }
 
@@ -135,8 +156,8 @@ namespace HexaCraft
 
             EditorGUI.BeginChangeCheck();
 
-            // In the ToolBar, -1 means that nohting is selected, and 0 means that the first thing is selected.
-            int toolbarIndex = (int)tool - 1;
+            // 툴바에서 -1은 아무것도 선택되지 않았음을 의미. 0은 첫 번째 항목이 선택되었음을 의미
+            int toolbarIndex = (int)brushTool - 1;
 
             using (new GUILayout.HorizontalScope())
             {
@@ -145,8 +166,8 @@ namespace HexaCraft
 
             if (EditorGUI.EndChangeCheck())
             {
-                BrushTool newTool = (BrushTool)(toolbarIndex + 1);
-                SetTool(newTool == tool ? BrushTool.None : (BrushTool)toolbarIndex + 1);
+                BrushTool newBrushTool = (BrushTool)(toolbarIndex + 1);
+                SetTool(newBrushTool == brushTool ? BrushTool.None : (BrushTool)toolbarIndex + 1);
             }
         }
 
@@ -155,9 +176,20 @@ namespace HexaCraft
             GameObject go = null;
 
 #if UNITY_2021_1_OR_NEWER
-            // 마우스 이동 이벤트 중에만 HandleUtility.PickGameObject를 확인해야 한다.
-            int materialIndex;
-            go = HandleUtility.PickGameObject(mousePosition, false, null, Selection.gameObjects, out materialIndex);
+            // NOTE: PickGameObject에서 필요시 미리 hextile 오브젝트를 배열로 가진 뒤, Filter로 사용 가능할 수 있다.
+            go = HandleUtility.PickGameObject(mousePosition, false);
+            if (go == null)
+            {
+                isHoverHextile = false;
+                return;
+            }
+
+            isHoverHextile = CheckHexComponent(go);
+            Debug.Log($"isHoverHextile: {isHoverHextile}");
+            if (isHoverHextile)
+            {
+                mode.OnEnable();
+            }
 #else
             Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
             RaycastHit hit;
@@ -166,7 +198,14 @@ namespace HexaCraft
                 go = hit.collider.gameObject;
             }
 #endif
-            Debug.Log($"Go.name: {go.name}");
+        }
+
+        private bool CheckHexComponent(GameObject go)
+        {
+            Hex component = go.GetComponent<Hex>();
+            if (component == null)
+                return false;
+            return true;
         }
 
         public bool ApplyBrush()
@@ -187,7 +226,7 @@ namespace HexaCraft
         {
             // newTool == tool을 통해 None값을 받았을 때는,
             // tool이 None일 수가 없다. 이미 무언가가 선택되어있는 상태였기에 tool이 None이었을 수 없다.
-            if (brushTool == tool && mode != null)
+            if (brushTool == this.brushTool && mode != null)
                 return;
 
             if (mode != null)
@@ -220,9 +259,9 @@ namespace HexaCraft
             }
 
             // tool을 자동으로 활성화/비활성화를 처리
-            tool = enableTool ? brushTool : BrushTool.None;
+            this.brushTool = enableTool ? brushTool : BrushTool.None;
 
-            if (tool != BrushTool.None)
+            if (this.brushTool != BrushTool.None)
             {
                 Tools.current = Tool.None;
                 mode.OnEnable();
