@@ -58,6 +58,10 @@ namespace HexaCraft
             renderer.sharedMaterials = newMaterials;
         }
 
+        // TODO: 마우스 커서 아이콘 브러쉬 size에 맞추어 원형으로 표시되게 제작
+        // - 마우스 포인터가 Screen Coordinate에 있는게 아니라, 3D 평면에서 동작하도록. 즉, 기존 것은 비활성화되게 만들어야 할지도 모름
+        // - Handles 클래스 참조
+        // - Handles.DrawSolidDisc
         public override void DrawGizmos(bool isHoverHextile)
         {
             Rect cursorRect = new Rect(0, 0, Screen.width, Screen.height);
