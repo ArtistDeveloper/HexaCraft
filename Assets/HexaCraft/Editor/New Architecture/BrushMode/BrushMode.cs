@@ -11,11 +11,6 @@ namespace HexaCraft
 
         }
 
-        public virtual void OnBrushEnter(GameObject target)
-        {
-
-        }
-
         public virtual void OnBrushMove()
         {
 

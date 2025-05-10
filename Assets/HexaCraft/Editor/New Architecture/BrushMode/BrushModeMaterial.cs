@@ -27,11 +27,6 @@ namespace HexaCraft
             internal static GUIContent s_BrsuhSize = new GUIContent("Brush Size");
         }
 
-        public override void OnBrushEnter(GameObject target)
-        {
-            base.OnBrushEnter(target);
-        }
-
         public override void DrawGUI()
         {
             const float BRUSH_SIZE_MIN = 0.0f;

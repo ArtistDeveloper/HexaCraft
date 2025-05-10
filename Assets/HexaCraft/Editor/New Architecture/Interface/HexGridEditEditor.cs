@@ -193,12 +193,6 @@ namespace HexaCraft
             return true;
         }
 
-        // NOTE: 추후 필요 시 UpdateBrush에서 해당 내용으로 확장
-        private void OnBrusnEnter()
-        {
-            // mode.OnBrushEnter();
-        }
-
         /// <summary>
         /// 선택된 브러시 도구에 따라 적절한 모드를 설정하고 활성화합니다.
         /// </summary>
