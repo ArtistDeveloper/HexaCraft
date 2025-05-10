@@ -8,13 +8,10 @@ using PlasticGui.Configuration.OAuth;
 // TODO: 구현해야 하는 것. 
 // - BrushMode.OnEanble()
 // - BrushMode.OnDisable()
-// - UpdateBrush()
 // - ApplyBrush()
 // - OnBrushEnter() - 마우스가 편집 가능한 개체에 커서를 가져가기 시작하면 호출됩니다.
 
 // 세부 구현 사항
-// 1. 객체 hovering
-// 2. hovering된 객체가 hextile인지 판별 (아마 호버링된 게임오브젝트의 hex.cs 컴포넌트 유무로 가능할 듯)
 // 3. hovering 된 객체를 List로 관리할 때도 필요하고, 단일 게임오브젝트로 관리할 때도 필요하다.
 // 3.1 예를 들어, BrushModeMaterial은 BrushSize가 존재하기에 이에 따른 Brush 크기가 커질수록 한 번에 hovering되는 객체가 많아진다.
 // 3.2 그러나 ObjectAdd, PathManipulation 같은 조작은 단일 hex.cs를 가진 게임오브젝트만 선택해도 되기에, 이를 어떻게 전체적으로 BrushMode에서 관리할지 고민이 필요.
@@ -68,8 +65,6 @@ namespace HexaCraft
             };
 
 
-            SetTool(BrushTool.MaterialChange, false);
-
 #if UNITY_2019_1_OR_NEWER
             SceneView.duringSceneGui += OnSceneGUI;
 #else
@@ -116,27 +111,12 @@ namespace HexaCraft
                     ApplyBrush();
                     break;
                 case EventType.Repaint:
-                    DrawGizmos();
+                    mode.DrawGizmos(isHoverHextile);
                     break;
             }
 
             sceneView.Repaint();
             SceneView.RepaintAll();
-        }
-
-        // NOTE: 추후 burshMode 내부의 함수로 옮겨질 가능성 존재
-        private void DrawGizmos()
-        {
-            if (isHoverHextile)
-            {
-                Rect cursorRect = new Rect(0, 0, Screen.width, Screen.height);
-                EditorGUIUtility.AddCursorRect(cursorRect, MouseCursor.Pan);
-            }
-            else
-            {
-                Rect cursorRect = new Rect(0, 0, Screen.width, Screen.height);
-                EditorGUIUtility.AddCursorRect(cursorRect, MouseCursor.Arrow);
-            }
         }
 
         private void DrawActiveToolmodeSettings()
@@ -186,10 +166,6 @@ namespace HexaCraft
 
             isHoverHextile = CheckHexComponent(go);
             Debug.Log($"isHoverHextile: {isHoverHextile}");
-            if (isHoverHextile)
-            {
-                mode.OnEnable();
-            }
 #else
             Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
             RaycastHit hit;
@@ -217,38 +193,24 @@ namespace HexaCraft
             return true;
         }
 
+        // NOTE: 추후 필요 시 UpdateBrush에서 해당 내용으로 확장
         private void OnBrusnEnter()
         {
             // mode.OnBrushEnter();
         }
 
-        internal void SetTool(BrushTool brushTool, bool enableTool = true)
+        /// <summary>
+        /// 선택된 브러시 도구에 따라 적절한 모드를 설정하고 활성화합니다.
+        /// </summary>
+        /// <param name="selectedBrushTool">설정할 브러시 도구</param>
+        internal void SetTool(BrushTool selectedBrushTool)
         {
-            // newTool == tool을 통해 None값을 받았을 때는,
-            // tool이 None일 수가 없다. 이미 무언가가 선택되어있는 상태였기에 tool이 None이었을 수 없다.
-            if (brushTool == this.brushTool && mode != null)
-                return;
-
-            if (mode != null)
-            {
-                // mode가 존재한다면 mode 탈출
-                // if (m_LastHoveredGameObject != null)
-                // {
-                //     OnBrushExit(m_LastHoveredGameObject);
-                //     FinalizeAndResetHovering();
-                // }
-
-                // mode.OnDisable();
-            }
-
-            // m_LastHoveredGameObject = null;
-
             // 선택된 brushTool의 Type을 가져옴
-            System.Type modeType = brushTool.GetModeType();
+            System.Type modeType = selectedBrushTool.GetModeType();
 
             if (modeType != null)
             {
-                // modes 리스트에서 현재 선택된 modeType과 일치하는 BrushMode 객체를 탐색하고 반환한다.
+                // modes 리스트에서 현재 선택된 modeType과 일치하는 BrushMode 객체를 탐색하고 반환
                 mode = modes.FirstOrDefault(x => x != null && x.GetType() == modeType);
 
                 // 만약 mode 객체가 null이라면 해당하는 type의 객체 생성
@@ -259,12 +221,13 @@ namespace HexaCraft
             }
 
             // tool을 자동으로 활성화/비활성화를 처리
-            this.brushTool = enableTool ? brushTool : BrushTool.None;
+            brushTool = selectedBrushTool;
 
-            if (this.brushTool != BrushTool.None)
+            if (brushTool != BrushTool.None)
             {
                 Tools.current = Tool.None;
-                mode.OnEnable();
+                // NOTE: 당장은 OnEnable()에 세팅할 것들이 없다. 추후 세팅 연동에는 필요할 듯
+                // mode.OnEnable(); 
             }
 
             Repaint();

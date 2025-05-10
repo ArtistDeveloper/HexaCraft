@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace HexaCraft
 {
+    // TODO: BrushSize에 따른 Gizmos 렌더링. 원형 모양의 Brush
     public class BrushModeMaterial : BrushMode
     {
         private Material _mat;
@@ -18,7 +19,6 @@ namespace HexaCraft
         private Ray _ray;
 
         private RaycastHit _hit;
-
 
 
         internal new static class Styles
@@ -51,7 +51,7 @@ namespace HexaCraft
             Renderer renderer = target.GetComponent<Renderer>();
             if (renderer == null)
                 return;
-            
+
             var originalMaterials = renderer.sharedMaterials;
             Material[] newMaterials = new Material[originalMaterials.Length];
 
@@ -61,6 +61,15 @@ namespace HexaCraft
             }
 
             renderer.sharedMaterials = newMaterials;
+        }
+
+        public override void DrawGizmos(bool isHoverHextile)
+        {
+            Rect cursorRect = new Rect(0, 0, Screen.width, Screen.height);
+            if (isHoverHextile)
+                EditorGUIUtility.AddCursorRect(cursorRect, MouseCursor.Pan);
+            else
+                EditorGUIUtility.AddCursorRect(cursorRect, MouseCursor.Arrow);
         }
     }
 }

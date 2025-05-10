@@ -4,10 +4,7 @@ namespace HexaCraft
 {
     public abstract class BrushMode : ScriptableObject
     {
-        public virtual void DrawGUI()
-        {
-
-        }
+        public abstract void DrawGUI();
 
         public virtual void OnEnable()
         {
@@ -32,6 +29,11 @@ namespace HexaCraft
         public abstract void OnBrushApply(GameObject target);
 
         public abstract void RegisterUndo(); // BrushTarget brushTarget
+
+        public virtual void DrawGizmos(bool isHoverHextile)
+        {
+            
+        }
 
         public virtual void UndoRedoPerformed() // List<GameObject> modified
         {
